@@ -29,6 +29,8 @@ import { createPageUrl } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
 import Link from "next/link";
+import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "../ui/skeleton";
 //import PixelTracking from "../components/tracking/PixelTracking";
 
 const navigationItems = [
@@ -56,10 +58,31 @@ export default function MainLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  //   const { data: user } = useQuery({
-  //     queryKey: ["currentUser"],
-  //     queryFn: () => base44.auth.me(),
-  //   });
+
+  const fetchCurrentUser = async () => {
+    try {
+      const { data } = await axios.get("/api/auth/me"); // Chama nossa API
+      return data; // Retorna os dados do usuário
+    } catch (error) {
+      // Se der erro (ex: token inválido), desloga o usuário
+      console.error("Erro ao buscar usuário, deslogando:", error);
+      await axios.get("/api/auth/logout");
+      router.push("/login");
+      return null; // Retorna null em caso de erro
+    }
+  };
+
+  // Usa o React Query para buscar e gerenciar o cache do usuário
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["currentUser"], // Chave única para o cache
+    queryFn: fetchCurrentUser,
+    staleTime: 5 * 60 * 1000, // Considera os dados "frescos" por 5 minutos
+    retry: false, // Não tenta buscar de novo se der erro na primeira vez
+  });
 
   const handleLogout = async () => {
     try {
@@ -70,8 +93,7 @@ export default function MainLayout({
     }
   };
 
-  const user = { full_name: "Amigo G.", plan: "free" };
-  const isPremium = user.plan === "premium";
+  const isPremium = user?.plan === "premium";
 
   // Páginas que não devem ter sidebar (landing pages)
   const noSidebarPages = [createPageUrl("Pricing")];
@@ -85,6 +107,38 @@ export default function MainLayout({
         <div className="min-h-screen w-full">{children}</div>
       </>
     );
+  }
+
+  if (isLoading) {
+    return (
+      <>
+        {/* Header (Logo) - Mantém */}
+        <div className="border-b border-gray-200 p-4">
+          {" "}
+          {/* ... logo ... */}{" "}
+        </div>
+
+        {/* Content (Menu) - Mantém */}
+        <div className="flex-1 p-3 overflow-y-auto"> {/* ... menu ... */} </div>
+
+        {/* Footer (User) - MOSTRA SKELETON */}
+        <div className="border-t border-gray-100 p-4">
+          <div className="flex items-center gap-3 px-2 mb-3">
+            <Skeleton className="w-10 h-10 rounded-full" />
+            <div className="flex-1 min-w-0 space-y-1">
+              <Skeleton className="h-4 w-3/4" />
+              <Skeleton className="h-3 w-1/4" />
+            </div>
+          </div>
+          <Skeleton className="h-8 w-full" />
+        </div>
+      </>
+    );
+  }
+
+  // Se der erro ou o usuário não for encontrado (pouco provável, pois o middleware protege)
+  if (error || !user) {
+    return null;
   }
 
   return (
