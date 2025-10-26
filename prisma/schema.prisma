@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated"
+  //output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ServiceType {
+  missoes
+  ensino
+  adoracao
+  avivamento
+  santa_ceia
+  acao_de_gracas
+  juventude
+  familia
+  evangelismo
+  oracao
+}
+
+enum Plan {
+  free
+  premium
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  full_name String 
+  password  String 
+
+  plan        Plan     @default(free) 
+  
+  sermons_this_month Int      @default(0) 
+  last_reset_date    DateTime @default(now())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sermons Sermon[]
+}
+
+model Sermon {
+  id           String      @id @default(cuid())
+  serviceType  ServiceType
+  theme        String
+  title        String
+  keyVerse     String?
+  introduction String?
+  conclusion   String?
+  notes        String?
+  isFavorite   Boolean     @default(false)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  mainPoints MainPoint[]
+  @@index([userId])
+}
+
+model MainPoint {
+  id                  String   @id @default(cuid())
+  title               String
+  explanation         String
+  scriptureReferences String[]
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  sermonId String
+  sermon   Sermon @relation(fields: [sermonId], references: [id], onDelete: Cascade)
+  @@index([sermonId])
+}
