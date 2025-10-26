@@ -1,8 +1,13 @@
+/* app/globals.css (Corrigido com a Paleta Base44) */
+
+/* 1. SEUS IMPORTS ORIGINAIS (MANTIDOS!) */
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* 2. SUAS DIRETIVAS (MANTIDAS!) */
 @custom-variant dark (&:is(.dark *));
 
+/* 3. @theme inline (MANTIDO!) - Ele lê as variáveis abaixo */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -43,75 +48,152 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-:root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+@layer base {
+  /* Variáveis Padrão ShadCN (Tema Claro - Mapeadas da sua paleta) */
+  :root {
+    --background: #f8fafc; /* Cinza 50 */
+    --foreground: #0f172a; /* Cinza 900 */
+    --card: #ffffff; /* Branco */
+    --card-foreground: #0f172a; /* Cinza 900 */
+    --popover: #ffffff; /* Branco */
+    --popover-foreground: #0f172a; /* Cinza 900 */
+    --primary: #1e3a8a; /* Azul Escuro */
+    --primary-foreground: #ffffff; /* Branco */
+    --secondary: #f1f5f9; /* Cinza 100 */
+    --secondary-foreground: #1e293b; /* Cinza 800 */
+    --muted: #f1f5f9; /* Cinza 100 */
+    --muted-foreground: #64748b; /* Cinza 500 */
+    --accent: #6366f1; /* Índigo */
+    --accent-foreground: #ffffff; /* Branco */
+    --destructive: #dc2626; /* Vermelho (Erro) */
+    --destructive-foreground: #ffffff; /* Branco */
+    --border: #e2e8f0; /* Cinza 200 */
+    --input: #e2e8f0; /* Cinza 200 */
+    --ring: #3b82f6; /* Azul Médio */
+    --radius: 0.625rem;
+
+    /* --- CORES CUSTOMIZADAS (Baseado na sua paleta) --- */
+    --azul-medio: #3b82f6;
+    --azul-claro: #60a5fa;
+    --azul-50: #eff6ff;
+    --indigo-escuro: #4f46e5;
+    --indigo-claro: #818cf8;
+    --indigo-50: #eef2ff;
+    --ambar: #f59e0b; /* (Seu '--gold' original) */
+    --ambar-claro: #fbbf24;
+    --laranja: #f97316;
+    --laranja-escuro: #ea580c;
+    --vermelho: #dc2626; /* (Mesmo do destructive) */
+    --verde: #10b981; /* (Sucesso) */
+    --lima: #84cc16;
+    --ciano: #06b6d4;
+    --roxo: #9333ea;
+    --rosa: #ec4899;
+    --branco: #ffffff;
+    --quase-branco: #f8fafc;
+
+    /* Cinzas (Já mapeados, mas bom ter como custom também) */
+    --cinza-50: #f8fafc;
+    --cinza-100: #f1f5f9;
+    --cinza-200: #e2e8f0;
+    --cinza-300: #cbd5e1;
+    --cinza-400: #94a3b8;
+    --cinza-500: #64748b;
+    --cinza-600: #475569;
+    --cinza-700: #334155;
+    --cinza-800: #1e293b;
+    --cinza-900: #0f172a;
+    /* --- FIM DAS CORES CUSTOMIZADAS --- */
+
+    /* (Variáveis de chart e sidebar mantidas do seu arquivo original) */
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+  }
+
+  /* Variáveis Padrão ShadCN (Tema Escuro - Mapeadas da sua paleta) */
+  .dark {
+    --background: #0f172a; /* Cinza 900 */
+    --foreground: #e2e8f0; /* Cinza 200 */
+    --card: #1e293b; /* Cinza 800 */
+    --card-foreground: #e2e8f0; /* Cinza 200 */
+    --popover: #1e293b; /* Cinza 800 */
+    --popover-foreground: #e2e8f0; /* Cinza 200 */
+    --primary: #3b82f6; /* Azul Médio */
+    --primary-foreground: #0f172a; /* Cinza 900 */
+    --secondary: #334155; /* Cinza 700 */
+    --secondary-foreground: #e2e8f0; /* Cinza 200 */
+    --muted: #334155; /* Cinza 700 */
+    --muted-foreground: #94a3b8; /* Cinza 400 */
+    --accent: #818cf8; /* Índigo Claro (Mais claro para dark) */
+    --accent-foreground: #0f172a; /* Cinza 900 */
+    --destructive: #dc2626; /* Vermelho */
+    --destructive-foreground: #ffffff; /* Branco */
+    --border: #334155; /* Cinza 700 */
+    --input: #334155; /* Cinza 700 */
+    --ring: #3b82f6; /* Azul Médio */
+
+    /* --- CORES CUSTOMIZADAS (Dark Mode - Adaptação) --- */
+    --azul-medio: #3b82f6;
+    --azul-claro: #60a5fa;
+    --azul-50: #1e293b; /* Ajustado */
+    --indigo-escuro: #4f46e5;
+    --indigo-claro: #818cf8;
+    --indigo-50: #1e293b; /* Ajustado */
+    --ambar: #fbbf24; /* Ambar Claro */
+    --ambar-claro: #fde68a; /* Mais Claro */
+    --laranja: #f97316;
+    --laranja-escuro: #ea580c;
+    --vermelho: #dc2626;
+    --verde: #10b981;
+    --lima: #84cc16;
+    --ciano: #06b6d4;
+    --roxo: #a855f7; /* Roxo mais claro */
+    --rosa: #ec4899;
+    --branco: #ffffff;
+    --quase-branco: #f8fafc;
+
+    /* Cinzas (Invertidos) */
+    --cinza-50: #0f172a;
+    --cinza-100: #1e293b;
+    --cinza-200: #334155;
+    --cinza-300: #475569;
+    --cinza-400: #64748b;
+    --cinza-500: #94a3b8;
+    --cinza-600: #cbd5e1;
+    --cinza-700: #e2e8f0;
+    --cinza-800: #f1f5f9;
+    --cinza-900: #f8fafc;
+    /* --- FIM DAS CORES CUSTOMIZADAS (Dark) --- */
+
+    /* (Variáveis de chart e sidebar mantidas do seu arquivo original) */
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+  }
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
-}
-
+/* 6. SEU @layer base (MANTIDO!) */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -119,4 +201,26 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+:root {
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+}
+
+.dark {
+  --sidebar: hsl(240 5.9% 10%);
+  --sidebar-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-primary: hsl(224.3 76.3% 48%);
+  --sidebar-primary-foreground: hsl(0 0% 100%);
+  --sidebar-accent: hsl(240 3.7% 15.9%);
+  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+  --sidebar-border: hsl(240 3.7% 15.9%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }

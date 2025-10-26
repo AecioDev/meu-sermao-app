@@ -39,44 +39,47 @@ export default function Dashboard() {
   const remaining = isPremium ? "∞" : Math.max(0, 3 - sermonsThisMonth);
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <WelcomeCard user={mockUser} isPremium={isPremium} />
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-      >
-        <StatsCards
-          totalSermons={mockAllSermons.length}
-          sermonsThisMonth={sermonsThisMonth}
-          remaining={remaining}
-          isPremium={isPremium}
-        />
-      </motion.div>
+    <div className="min-h-screen p-3 md:p-8">
+      <div className="max-w-7xl mx-auto space-y-4 md:space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <WelcomeCard user={mockUser} isPremium={isPremium} />
+        </motion.div>
 
-      {!isPremium && <PremiumBanner />}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <StatsCards
+            totalSermons={mockAllSermons.length}
+            sermonsThisMonth={sermonsThisMonth}
+            remaining={remaining}
+            isPremium={isPremium}
+          />
+        </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      >
-        <QuickActions isPremium={isPremium} remaining={remaining} />
-      </motion.div>
+        {!isPremium && <PremiumBanner />}
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-      >
-        <RecentSermons sermons={mockSermons} isLoading={isLoading} />
-      </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <QuickActions isPremium={isPremium} remaining={remaining} />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <RecentSermons sermons={mockSermons} isLoading={isLoading} />
+        </motion.div>
+      </div>
     </div>
   );
 }

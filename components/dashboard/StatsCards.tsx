@@ -44,27 +44,30 @@ export default function StatsCards({
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-3 md:grid-cols-3 gap-3 md:gap-6">
       {stats.map((stat, index) => (
         <Card
           key={index}
           className="relative overflow-hidden border-none shadow-lg hover:shadow-xl transition-all duration-300"
         >
           <div
-            className={`absolute top-0 right-0 w-32 h-32 ${stat.bgColor} rounded-full blur-3xl opacity-50 transform translate-x-16 -translate-y-16`}
+            className={`absolute top-0 right-0 w-20 h-20 md:w-32 md:h-32 ${stat.bgColor} rounded-full blur-3xl opacity-50 transform translate-x-10 -translate-y-10 md:translate-x-16 md:-translate-y-16`}
           />
-          <CardContent className="p-6 relative">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600 mb-1">
-                  {stat.title}
+          <CardContent className="p-3 md:p-6 relative">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 md:gap-0">
+              <div className="flex-1">
+                <p className="text-xs md:text-sm font-medium text-gray-600 mb-1">
+                  <span className="md:hidden">{stat.title}</span>
+                  <span className="hidden md:inline">{stat.title}</span>
                 </p>
-                <p className="text-4xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-2xl md:text-4xl font-bold text-gray-900">
+                  {stat.value}
+                </p>
               </div>
               <div
-                className={`w-14 h-14 rounded-2xl bg-linear-to-br ${stat.color} flex items-center justify-center shadow-lg`}
+                className={`w-10 h-10 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg self-end md:self-auto`}
               >
-                <stat.icon className="w-7 h-7 text-white" />
+                <stat.icon className="w-5 h-5 md:w-7 md:h-7 text-white" />
               </div>
             </div>
           </CardContent>

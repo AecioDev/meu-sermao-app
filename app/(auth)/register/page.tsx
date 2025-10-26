@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { BookOpen } from "lucide-react";
+import { BookOpen, Eye, EyeOff } from "lucide-react"; // <-- 1. IMPORTE OS ÍCONES
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -29,6 +29,10 @@ export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // 2. ESTADO PARA CONTROLAR A VISIBILIDADE
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -38,22 +42,16 @@ export default function RegisterPage() {
     setIsLoading(true);
     setError(null);
 
-    // 2. MUDANÇA NA LÓGICA (VALIDAÇÃO)
     if (formData.password !== formData.confirmPassword) {
       setError("As senhas não conferem. Tente novamente.");
       setIsLoading(false);
-      return; // Para a execução
+      return;
     }
 
-    // Separa os dados para enviar (sem o confirmPassword)
     const { fullName, email, password } = formData;
 
     try {
-      // 3. MUDANÇA NO AXIOS (Envia só o necessário)
-      // A API de registro só espera fullName, email e password
       await axios.post("/api/auth/register", { fullName, email, password });
-
-      // (Opcional: Fazer login automático aqui, mas por enquanto vamos pro login)
       router.push("/login");
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
@@ -69,6 +67,7 @@ export default function RegisterPage() {
 
   return (
     <Card className="w-full max-w-md">
+      {/* ... (CardHeader não muda) ... */}
       <CardHeader className="text-center">
         <div className="flex justify-center items-center gap-2 mb-2">
           <BookOpen className="w-6 h-6 text-primary" />
@@ -79,6 +78,7 @@ export default function RegisterPage() {
           Preencha os dados para começar a criar.
         </CardDescription>
       </CardHeader>
+
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
@@ -102,29 +102,58 @@ export default function RegisterPage() {
               disabled={isLoading}
             />
           </div>
+
+          {/* 3. CAMPO DE SENHA ATUALIZADO */}
           <div className="space-y-2">
             <Label htmlFor="password">Senha</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="********"
-              required
-              onChange={handleChange}
-              disabled={isLoading}
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="********"
+                required
+                onChange={handleChange}
+                disabled={isLoading}
+                className="pr-10"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* 4. MUDANÇA NO JSX (NOVO CAMPO) */}
           <div className="space-y-2">
             <Label htmlFor="confirmPassword">Confirmar Senha</Label>
-            <Input
-              id="confirmPassword"
-              type="password"
-              placeholder="********"
-              required
-              onChange={handleChange}
-              disabled={isLoading}
-            />
+            <div className="relative">
+              <Input
+                id="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="********"
+                required
+                onChange={handleChange}
+                disabled={isLoading}
+                className="pr-10"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
+              </button>
+            </div>
           </div>
 
           {error && (
@@ -136,6 +165,7 @@ export default function RegisterPage() {
           </Button>
         </form>
       </CardContent>
+      {/* ... (CardFooter não muda) ... */}
       <CardFooter className="flex justify-center">
         <p className="text-sm text-muted-foreground">
           Já tem uma conta?{" "}
