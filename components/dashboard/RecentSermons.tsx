@@ -8,6 +8,7 @@ import { Clock, BookOpen, ArrowRight, FileText } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Sermon } from "@/services/sermon/sermon-schema";
 
 // 1. Nossos helpers de estilo (copiados do seu arquivo)
 const serviceTypeLabels = {
@@ -36,15 +37,6 @@ const serviceTypeColors = {
   oracao: "bg-indigo-100 text-indigo-800",
 };
 
-// 2. Tipagem para o nosso mock
-type Sermon = {
-  id: number | string;
-  service_type: keyof typeof serviceTypeLabels;
-  title: string;
-  theme: string;
-  created_date: string; // ISO string
-};
-
 interface RecentSermonsProps {
   sermons: Sermon[];
   isLoading: boolean;
@@ -56,7 +48,7 @@ export default function RecentSermons({
 }: RecentSermonsProps) {
   if (isLoading) {
     return (
-      <Card className="border-none shadow-lg">
+      <Card className="border-none shadow-lg py-4">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
             <Clock className="w-5 h-5 md:w-6 md:h-6 text-indigo-600" />
@@ -76,26 +68,26 @@ export default function RecentSermons({
 
   if (sermons.length === 0) {
     return (
-      <Card className="border-none shadow-lg">
+      <Card className="border-none shadow-lg py-4">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-            <Clock className="w-5 h-5 md:w-6 md:h-6 text-indigo-600" />
+          <CardTitle className="flex items-center gap-2 text-xl">
+            <Clock className="w-6 h-6 text-indigo-600" />
             Sermões Recentes
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-center py-8 md:py-12">
-            <div className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-3 md:mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-              <FileText className="w-8 h-8 md:w-10 md:h-10 text-gray-400" />
+          <div className="text-center py-12">
+            <div className="w-20 h-20 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+              <FileText className="w-10 h-10 text-gray-400" />
             </div>
-            <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Nenhum sermão ainda
             </h3>
-            <p className="text-sm md:text-base text-gray-600 mb-4 md:mb-6">
+            <p className="text-gray-600 mb-6">
               Comece criando seu primeiro sermão inspirador!
             </p>
             <Link href="/criar-sermao">
-              <Button className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+              <Button className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-primary-foreground">
                 <BookOpen className="w-4 h-4 mr-2" />
                 Criar Primeiro Sermão
               </Button>
@@ -108,54 +100,55 @@ export default function RecentSermons({
 
   return (
     <Card className="border-none shadow-lg">
-      <CardHeader className="flex flex-row items-center justify-between pb-3 md:pb-6">
-        <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-          <Clock className="w-5 h-5 md:w-6 md:h-6 text-indigo-600" />
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle className="flex items-center gap-2 text-xl">
+          <Clock className="w-6 h-6 text-indigo-600" />
           Sermões Recentes
         </CardTitle>
         <Link href="/biblioteca">
           <Button
             variant="ghost"
             size="sm"
-            className="text-indigo-600 hover:text-indigo-700 text-xs md:text-sm"
+            className="text-indigo-600 hover:text-indigo-700"
           >
             Ver todos
-            <ArrowRight className="w-3 h-3 md:w-4 md:h-4 ml-1 md:ml-2" />
+            <ArrowRight className="w-4 h-4 ml-2" />
           </Button>
         </Link>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2 md:space-y-3">
+        <div className="space-y-3">
           {sermons.map((sermon) => (
             <Link key={sermon.id} href={`/biblioteca?sermon=${sermon.id}`}>
               <Card className="group hover:shadow-md transition-all duration-300 cursor-pointer border hover:border-indigo-300">
-                <CardContent className="p-3 md:p-4">
-                  <div className="flex items-start justify-between gap-3 md:gap-4">
+                {" "}
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1 md:mb-2">
+                      {" "}
+                      <div className="flex items-center gap-2 mb-2">
                         <Badge
-                          className={`text-xs ${
-                            serviceTypeColors[sermon.service_type]
-                          }`}
+                          className={serviceTypeColors[sermon.serviceType]}
                         >
-                          {serviceTypeLabels[sermon.service_type]}
+                          {serviceTypeLabels[sermon.serviceType]}
                         </Badge>
                       </div>
-                      <h3 className="font-bold text-sm md:text-base text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors line-clamp-1">
+                      <h3 className="font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors truncate">
+                        {" "}
                         {sermon.title}
                       </h3>
-                      <p className="text-xs md:text-sm text-gray-600 line-clamp-1">
+                      <p className="text-sm text-gray-600 line-clamp-1">
                         {sermon.theme}
                       </p>
-                      <p className="text-xs text-gray-400 mt-1 md:mt-2">
+                      <p className="text-xs text-gray-400 mt-2">
                         {format(
-                          new Date(sermon.created_date),
+                          new Date(sermon.createdAt),
                           "d 'de' MMMM 'às' HH:mm",
                           { locale: ptBR }
                         )}
                       </p>
                     </div>
-                    <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all shrink-0" />
+                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all shrink-0" />{" "}
                   </div>
                 </CardContent>
               </Card>
@@ -165,117 +158,4 @@ export default function RecentSermons({
       </CardContent>
     </Card>
   );
-
-  // if (isLoading) {
-  //   return (
-  //     <Card className="border-none shadow-lg">
-  //       <CardHeader>
-  //         <CardTitle className="flex items-center gap-2 text-xl">
-  //           <Clock className="w-6 h-6 text-indigo-600" />
-  //           Sermões Recentes
-  //         </CardTitle>
-  //       </CardHeader>
-  //       <CardContent>
-  //         <div className="space-y-4">
-  //           {[1, 2, 3].map((i) => (
-  //             <Skeleton key={i} className="h-24 w-full" />
-  //           ))}
-  //         </div>
-  //       </CardContent>
-  //     </Card>
-  //   );
-  // }
-
-  // if (sermons.length === 0) {
-  //   return (
-  //     <Card className="border-none shadow-lg">
-  //       <CardHeader>
-  //         <CardTitle className="flex items-center gap-2 text-xl">
-  //           <Clock className="w-6 h-6 text-indigo-600" />
-  //           Sermões Recentes
-  //         </CardTitle>
-  //       </CardHeader>
-  //       <CardContent>
-  //         <div className="text-center py-12">
-  //           <div className="w-20 h-20 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-  //             <FileText className="w-10 h-10 text-gray-400" />
-  //           </div>
-  //           <h3 className="text-lg font-semibold text-gray-900 mb-2">
-  //             Nenhum sermão ainda
-  //           </h3>
-  //           <p className="text-gray-600 mb-6">
-  //             Comece criando seu primeiro sermão inspirador!
-  //           </p>
-  //           {/* 3. Links e gradientes corrigidos */}
-  //           <Link href="/criar-sermao">
-  //             <Button className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
-  //               <BookOpen className="w-4 h-4 mr-2" />
-  //               Criar Primeiro Sermão
-  //             </Button>
-  //           </Link>
-  //         </div>
-  //       </CardContent>
-  //     </Card>
-  //   );
-  // }
-
-  // return (
-  //   <Card className="border-none shadow-lg">
-  //     <CardHeader className="flex flex-row items-center justify-between">
-  //       <CardTitle className="flex items-center gap-2 text-xl">
-  //         <Clock className="w-6 h-6 text-indigo-600" />
-  //         Sermões Recentes
-  //       </CardTitle>
-  //       <Link href="/biblioteca">
-  //         {" "}
-  //         {/* 3. Link corrigido */}
-  //         <Button
-  //           variant="ghost"
-  //           size="sm"
-  //           className="text-indigo-600 hover:text-indigo-700"
-  //         >
-  //           Ver todos
-  //           <ArrowRight className="w-4 h-4 ml-2" />
-  //         </Button>
-  //       </Link>
-  //     </CardHeader>
-  //     <CardContent>
-  //       <div className="space-y-3">
-  //         {sermons.map((sermon) => (
-  //           <Link key={sermon.id} href={`/biblioteca?sermon=${sermon.id}`}>
-  //             <Card className="group hover:shadow-md transition-all duration-300 cursor-pointer border hover:border-indigo-300">
-  //               <CardContent className="p-4">
-  //                 <div className="flex items-start justify-between gap-4">
-  //                   <div className="flex-1">
-  //                     <div className="flex items-center gap-2 mb-2">
-  //                       <Badge
-  //                         className={serviceTypeColors[sermon.service_type]}
-  //                       >
-  //                         {serviceTypeLabels[sermon.service_type]}
-  //                       </Badge>
-  //                     </div>
-  //                     <h3 className="font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors">
-  //                       {sermon.title}
-  //                     </h3>
-  //                     <p className="text-sm text-gray-600 line-clamp-1">
-  //                       {sermon.theme}
-  //                     </p>
-  //                     <p className="text-xs text-gray-400 mt-2">
-  //                       {format(
-  //                         new Date(sermon.created_date),
-  //                         "d 'de' MMMM 'às' HH:mm",
-  //                         { locale: ptBR }
-  //                       )}
-  //                     </p>
-  //                   </div>
-  //                   <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
-  //                 </div>
-  //               </CardContent>
-  //             </Card>
-  //           </Link>
-  //         ))}
-  //       </div>
-  //     </CardContent>
-  //   </Card>
-  // );
 }

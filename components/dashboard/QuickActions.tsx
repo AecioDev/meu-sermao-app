@@ -40,7 +40,7 @@ export default function QuickActions({
   ];
 
   return (
-    <Card className="border-none shadow-lg">
+    <Card className="border-none shadow-lg py-4">
       <CardHeader className="pb-3 md:pb-6">
         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
           <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-indigo-600" />
@@ -58,7 +58,6 @@ export default function QuickActions({
           </Alert>
         )}
 
-        {/* Mobile: Lista Vertical Compacta */}
         <div className="flex md:hidden flex-col gap-2">
           {actions.map((action, index) => (
             <Link
@@ -93,7 +92,6 @@ export default function QuickActions({
           ))}
         </div>
 
-        {/* Desktop: Grid Original */}
         <div className="hidden md:grid md:grid-cols-2 gap-4">
           {actions.map((action, index) => (
             <Link

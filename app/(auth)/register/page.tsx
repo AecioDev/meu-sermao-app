@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { BookOpen, Eye, EyeOff } from "lucide-react"; // <-- 1. IMPORTE OS ÍCONES
+import { BookOpen, Eye, EyeOff } from "lucide-react";
+import { registerUser } from "@/services/auth/auth-requests";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -28,8 +29,6 @@ export default function RegisterPage() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // 2. ESTADO PARA CONTROLAR A VISIBILIDADE
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -51,7 +50,7 @@ export default function RegisterPage() {
     const { fullName, email, password } = formData;
 
     try {
-      await axios.post("/api/auth/register", { fullName, email, password });
+      await registerUser({ fullName, email, password });
       router.push("/login");
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
