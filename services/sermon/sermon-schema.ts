@@ -1,12 +1,14 @@
 // services/sermons/sermon-schema.ts
-
-// Reutiliza o enum do Prisma (ou define aqui se preferir)
 import { ServiceType } from "@/generated/client";
 
-// Define o tipo do Sermão retornado pela API /api/sermons
+// =================================
+// TIPOS DO CRUD BÁSICO
+// =================================
+
+// Tipo principal do Sermão (como vem do DB)
 export type Sermon = {
   id: string;
-  serviceType: ServiceType; // Usa o enum importado
+  serviceType: ServiceType;
   theme: string;
   title: string;
   keyVerse: string | null;
@@ -14,12 +16,66 @@ export type Sermon = {
   conclusion: string | null;
   notes: string | null;
   isFavorite: boolean;
-  createdAt: string; // Vem como string ISO da API
-  updatedAt: string; // Vem como string ISO da API
+  createdAt: string;
+  updatedAt: string;
   userId: string;
-  // mainPoints não está sendo retornado pela API GET por enquanto
+  // O Prisma tem `mainPoints`, mas a API de GET /api/sermons não retorna por padrão
+  // Vamos adicionar aqui o tipo que a IA vai gerar
+  mainPoints?: MainPoint[];
 };
 
-// (Quando adicionar Zod)
-// import { z } from 'zod';
-// export const SermonSchema = z.object({ ... });
+// Tipo do Ponto Principal (igual ao do JSON da IA)
+export type MainPoint = {
+  title: string;
+  explanation: string;
+  scriptureReferences: string[];
+};
+
+// =================================
+// NOVOS TIPOS PARA O FLUXO DA IA
+// =================================
+
+// --- ETAPA 1: Sugerir Temas ---
+
+/**
+ * O que o frontend envia para a rota /suggest-themes
+ */
+export type GenerateThemePayload = {
+  serviceType: ServiceType;
+};
+
+/**
+ * O formato de cada sugestão de tema que a IA retorna
+ */
+export type ThemeSuggestion = {
+  theme: string;
+  description: string;
+  key_verse: string;
+};
+
+/**
+ * A resposta completa da rota /suggest-themes
+ */
+export type GenerateThemeResponse = {
+  themes: ThemeSuggestion[];
+};
+
+// --- ETAPA 2: Gerar Sermão Completo ---
+
+/**
+ * O que o frontend envia para a rota /generate-full
+ */
+export type GenerateFullSermonPayload = {
+  theme: string;
+  keyVerse: string;
+};
+
+/**
+ * A resposta completa da rota /generate-full (o esboço)
+ */
+export type GenerateFullSermonResponse = {
+  title: string;
+  introduction: string;
+  mainPoints: MainPoint[];
+  conclusion: string;
+};

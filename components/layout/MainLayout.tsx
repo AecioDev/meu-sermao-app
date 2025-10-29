@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   BookOpen,
@@ -31,24 +33,15 @@ import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
 import { useCurrentUser } from "@/services/user/user.queries";
 import { logoutUser } from "@/services/auth/auth-requests";
-//import PixelTracking from "../components/tracking/PixelTracking";
 
 const navigationItems = [
-  {
-    title: "Painel",
-    url: createPageUrl("Dashboard"),
-    icon: LayoutDashboard,
-  },
+  { title: "Painel", url: createPageUrl("Dashboard"), icon: LayoutDashboard },
   {
     title: "Criar Sermão",
     url: createPageUrl("CreateSermon"),
     icon: PlusCircle,
   },
-  {
-    title: "Biblioteca",
-    url: createPageUrl("SermonLibrary"),
-    icon: Library,
-  },
+  { title: "Biblioteca", url: createPageUrl("SermonLibrary"), icon: Library },
 ];
 
 export default function MainLayout({
@@ -60,48 +53,34 @@ export default function MainLayout({
   const router = useRouter();
 
   const { data: user, isLoading, error } = useCurrentUser();
-
   const handleLogout = async () => {
     try {
-      // Chama a função centralizada!
       await logoutUser();
       router.push("/login");
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
-      // (Opcional: mostrar uma notificação de erro)
     }
   };
 
   const isPremium = user?.plan === "premium";
 
-  // Páginas que não devem ter sidebar (landing pages)
   const noSidebarPages = [createPageUrl("Pricing")];
   const shouldShowSidebar = !noSidebarPages.includes(pathname);
 
-  // Se for página sem sidebar, renderiza apenas o conteúdo
   if (!shouldShowSidebar) {
     return (
-      <>
-        {/* <PixelTracking /> */}
-        <div className="min-h-screen w-full">{children}</div>
-      </>
+      <div className="min-h-screen w-full bg-background text-foreground">
+        {children}
+      </div>
     );
   }
 
   if (isLoading) {
     return (
       <>
-        {/* Header (Logo) - Mantém */}
-        <div className="border-b border-gray-200 p-4">
-          {" "}
-          {/* ... logo ... */}{" "}
-        </div>
-
-        {/* Content (Menu) - Mantém */}
-        <div className="flex-1 p-3 overflow-y-auto"> {/* ... menu ... */} </div>
-
-        {/* Footer (User) - MOSTRA SKELETON */}
-        <div className="border-t border-gray-100 p-4">
+        <div className="border-b border-border p-4 bg-card/80 backdrop-blur-sm" />
+        <div className="flex-1 p-3 overflow-y-auto" />
+        <div className="border-t border-border p-4 bg-card/80 backdrop-blur-sm">
           <div className="flex items-center gap-3 px-2 mb-3">
             <Skeleton className="w-10 h-10 rounded-full" />
             <div className="flex-1 min-w-0 space-y-1">
@@ -115,42 +94,33 @@ export default function MainLayout({
     );
   }
 
-  // Se der erro ou o usuário não for encontrado (pouco provável, pois o middleware protege)
-  if (error || !user) {
-    return null;
-  }
+  if (error || !user) return null;
 
   return (
     <SidebarProvider>
-      {/* <PixelTracking /> */}
-      <style>{`
-        :root {
-          --primary: #1e3a8a;
-          --primary-light: #3b82f6;
-          --accent: #6366f1;
-          --gold: #f59e0b;
-          --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-      `}</style>
-      <div className="min-h-screen flex w-full bg-linear-to-br from-slate-50 via-blue-50 to-indigo-50">
-        <Sidebar className="border-r border-gray-200 bg-white/80 backdrop-blur-sm">
-          <SidebarHeader className="border-b border-gray-100 p-6">
+      <div className="min-h-screen flex w-full bg-linear-to-br from-background via-background to-muted/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
+        {/* SIDEBAR */}
+        <Sidebar className="border-r border-border bg-card/80 backdrop-blur-sm shadow-sm rounded-r-2xl">
+          <SidebarHeader className="border-b border-border p-6">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-linear-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-                <BookOpen className="w-6 h-6 text-white" />
+              <div className="w-10 h-10 bg-linear-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg">
+                <BookOpen className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h2 className="font-bold text-xl bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <h2 className="font-bold text-xl bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
                   Meu Sermão
                 </h2>
-                <p className="text-xs text-gray-500">Sermões inspiradores</p>
+                <p className="text-xs text-muted-foreground">
+                  Sermões inspiradores
+                </p>
               </div>
             </div>
           </SidebarHeader>
 
           <SidebarContent className="p-3">
+            {/* Grupo Navegação */}
             <SidebarGroup>
-              <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3 py-2">
+              <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 py-2">
                 Navegação
               </SidebarGroupLabel>
               <SidebarGroupContent>
@@ -159,10 +129,10 @@ export default function MainLayout({
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton
                         asChild
-                        className={`hover:bg-blue-50 hover:text-blue-700 transition-all duration-200 rounded-xl mb-1 ${
+                        className={`rounded-xl mb-1 transition-all duration-200 ${
                           pathname === item.url
-                            ? "bg-linear-to-r from-blue-600 to-indigo-600 text-white hover:text-white"
-                            : ""
+                            ? "bg-linear-to-r from-primary to-accent text-primary-foreground shadow-md"
+                            : "hover:bg-muted hover:text-foreground"
                         }`}
                       >
                         <Link
@@ -179,8 +149,9 @@ export default function MainLayout({
               </SidebarGroupContent>
             </SidebarGroup>
 
+            {/* Grupo Assinatura */}
             <SidebarGroup>
-              <SidebarGroupLabel className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3 py-2">
+              <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 py-2">
                 Assinatura
               </SidebarGroupLabel>
               <SidebarGroupContent>
@@ -188,10 +159,10 @@ export default function MainLayout({
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       asChild
-                      className={`hover:bg-purple-50 hover:text-purple-700 transition-all duration-200 rounded-xl ${
+                      className={`rounded-xl transition-all duration-200 ${
                         pathname === createPageUrl("ManageSubscription")
-                          ? "bg-linear-to-r from-purple-600 to-pink-600 text-white hover:text-white"
-                          : ""
+                          ? "bg-linear-to-r from-purple-600 to-pink-600 text-white shadow-md"
+                          : "hover:bg-muted hover:text-foreground"
                       }`}
                     >
                       <Link
@@ -207,17 +178,18 @@ export default function MainLayout({
               </SidebarGroupContent>
             </SidebarGroup>
 
+            {/* Box Premium */}
             {!isPremium && (
-              <div className="mx-3 my-4 p-4 bg-linear-to-br from-amber-50 to-orange-50 border-2 border-amber-200 rounded-xl">
+              <div className="mx-3 my-4 p-4 bg-linear-to-br from-amber-50 to-orange-50 dark:from-amber-500/10 dark:to-orange-500/10 border border-amber-200/60 dark:border-amber-400/40 rounded-xl">
                 <div className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-linear-to-br from-amber-400 to-orange-500 rounded-lg flex items-center justify-center">
                     <Crown className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-sm text-gray-800">
+                    <h3 className="font-bold text-sm text-foreground">
                       Upgrade para Premium
                     </h3>
-                    <p className="text-xs text-gray-600 mt-1 mb-3">
+                    <p className="text-xs text-muted-foreground mt-1 mb-3">
                       Sermões ilimitados e recursos avançados
                     </p>
                     <Link href={createPageUrl("Pricing")}>
@@ -234,7 +206,8 @@ export default function MainLayout({
             )}
           </SidebarContent>
 
-          <SidebarFooter className="border-t border-gray-100 p-4">
+          {/* Rodapé */}
+          <SidebarFooter className="border-t border-border p-4 bg-card/80 backdrop-blur-sm">
             <div className="space-y-3">
               <div className="flex items-center gap-3 px-2">
                 <div className="w-10 h-10 bg-linear-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center shadow-md">
@@ -243,7 +216,7 @@ export default function MainLayout({
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-sm text-gray-900 truncate">
+                  <p className="font-semibold text-sm text-foreground truncate">
                     {user?.full_name || "Usuário"}
                   </p>
                   <div className="flex items-center gap-1">
@@ -264,7 +237,7 @@ export default function MainLayout({
                 variant="ghost"
                 size="sm"
                 onClick={handleLogout}
-                className="w-full justify-start text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Sair
@@ -273,22 +246,25 @@ export default function MainLayout({
           </SidebarFooter>
         </Sidebar>
 
+        {/* CONTEÚDO PRINCIPAL */}
         <main className="flex-1 flex flex-col">
-          <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 px-6 py-4 md:hidden">
+          <header className="bg-card/80 backdrop-blur-sm border-b border-border px-6 py-4 md:hidden">
             <div className="flex items-center gap-4">
-              <SidebarTrigger className="hover:bg-gray-100 p-2 rounded-lg transition-colors duration-200">
-                <Menu className="w-5 h-5" />
+              <SidebarTrigger className="hover:bg-muted/50 p-2 rounded-lg transition-colors duration-200">
+                <Menu className="w-5 h-5 text-foreground" />
               </SidebarTrigger>
               <div className="flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-blue-600" />
-                <h1 className="text-lg font-bold bg-linear-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                <BookOpen className="w-5 h-5 text-primary" />
+                <h1 className="text-lg font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
                   Meu Sermão
                 </h1>
               </div>
             </div>
           </header>
 
-          <div className="flex-1 overflow-auto">{children}</div>
+          <div className="flex-1 overflow-auto bg-background text-foreground">
+            {children}
+          </div>
         </main>
       </div>
     </SidebarProvider>

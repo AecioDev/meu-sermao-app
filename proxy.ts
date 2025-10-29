@@ -1,35 +1,14 @@
 // src/middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { jwtVerify } from "jose"; // Importa o 'jose' para VERIFICAR o token
+import { verifyToken } from "@/lib/jwt";
 
-// 1. Chave secreta (TEM QUE SER A MESMA do seu .env)
-const JWT_SECRET = process.env.JWT_SECRET;
-
-// Função auxiliar para verificar o token
-async function verifyToken(token: string) {
-  if (!JWT_SECRET) {
-    throw new Error("JWT_SECRET não está definido no .env");
-  }
-  try {
-    const { payload } = await jwtVerify(
-      token,
-      new TextEncoder().encode(JWT_SECRET)
-    );
-    return payload;
-  } catch (error) {
-    // Se o token for inválido ou expirado, ele dá erro
-    console.error("Erro: ", error);
-    return null;
-  }
-}
-
-// 2. O "AuthGuard" (Middleware)
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("session_token")?.value;
 
-  // 3. Tenta validar o token para saber se o usuário está logado
+  // 2. Tenta validar o token para saber se o usuário está logado
+  // A função verifyToken agora vem do helper 'lib/jwt.ts'
   const isLogged = token ? await verifyToken(token) : null;
 
   // --- DEFINIÇÃO DAS NOSSAS ROTAS ---
@@ -38,13 +17,13 @@ export async function middleware(request: NextRequest) {
   const isPublicAuthRoute =
     pathname.startsWith("/login") ||
     pathname.startsWith("/register") ||
-    pathname.startsWith("/pricing");
+    pathname.startsWith("/pricing"); // Adicionei pricing só como exemplo
 
   // Rotas privadas (só logado pode ver)
   const isPrivateRoute =
     pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/biblioteca") ||
-    pathname.startsWith("/criar-sermao");
+    pathname.startsWith("/biblioteca") || // Exemplo
+    pathname.startsWith("/criar-sermao"); // Exemplo
 
   // --- LÓGICA DO "GUARDA-COSTAS" ---
 
@@ -65,14 +44,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // CENÁRIO 3: (Todos os outros casos)
-  // (Ex: Não logado acessando /login, ou Logado acessando /dashboard)
   // Deixa o usuário passar.
   return NextResponse.next();
 }
 
-// 4. Configuração do "Matcher"
-// Isso diz ao middleware em QUAIS rotas ele deve rodar.
-// A gente quer que ele rode em TUDO, *exceto* em arquivos estáticos e da API.
+// 3. Configuração do "Matcher"
 export const config = {
   matcher: [
     /*
