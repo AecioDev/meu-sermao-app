@@ -3,23 +3,22 @@ import {
   useMutation,
   useQuery,
   useQueryClient,
-  UseMutationOptions, // <-- 1. IMPORTAMOS O TIPO DE OPÇÕES
+  UseMutationOptions,
 } from "@tanstack/react-query";
 import {
   createSermon,
   fetchSermons,
-  generateThemeSuggestions, // <-- Importa as novas funções
+  generateThemeSuggestions,
   generateFullSermon,
 } from "./sermon-requests";
 import {
   Sermon,
-  GenerateThemePayload, // <-- Importa os novos tipos
+  GenerateThemePayload,
   GenerateThemeResponse,
   GenerateFullSermonPayload,
   GenerateFullSermonResponse,
 } from "./sermon-schema";
 
-// Chave única para o cache da lista de sermões
 export const sermonsQueryKey = ["sermons"];
 
 /**
@@ -29,7 +28,7 @@ export const useSermons = () => {
   return useQuery<Sermon[], Error>({
     queryKey: sermonsQueryKey,
     queryFn: fetchSermons,
-    staleTime: 5 * 60 * 1000, // 5 minutos
+    staleTime: 5 * 60 * 1000,
   });
 };
 
@@ -38,7 +37,6 @@ export const useSermons = () => {
  * Invalida o cache da lista de sermões ('sermons') após o sucesso.
  */
 export const useCreateSermon = (
-  // 2. ADICIONAMOS O PARÂMETRO DE OPÇÕES
   options: UseMutationOptions<Sermon, Error, Partial<Sermon>> = {}
 ) => {
   const queryClient = useQueryClient();
@@ -46,13 +44,9 @@ export const useCreateSermon = (
   return useMutation<Sermon, Error, Partial<Sermon>>({
     mutationFn: createSermon,
     onSuccess: (newSermon, variables, context, mutation) => {
-      // <-- 1. ADICIONAMOS O 4º ARGUMENTO 'mutation'
-      // Invalida o cache
       queryClient.invalidateQueries({ queryKey: sermonsQueryKey });
-      // 3. CHAMA O ON_SUCCESS QUE O COMPONENTE PASSAR
       options.onSuccess?.(newSermon, variables, context, mutation);
     },
-    // 4. REPASSA TODAS AS OUTRAS OPÇÕES (onError, etc)
     ...options,
   });
 };
@@ -69,7 +63,7 @@ export const useGenerateThemes = (
 ) => {
   return useMutation<GenerateThemeResponse, Error, GenerateThemePayload>({
     mutationFn: generateThemeSuggestions,
-    ...options, // Repassa todas as opções (onSuccess, onError, etc.)
+    ...options,
   });
 };
 
@@ -89,6 +83,6 @@ export const useGenerateFullSermon = (
     GenerateFullSermonPayload
   >({
     mutationFn: generateFullSermon,
-    ...options, // Repassa todas as opções
+    ...options,
   });
 };

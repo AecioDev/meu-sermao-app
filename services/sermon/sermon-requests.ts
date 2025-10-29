@@ -13,11 +13,11 @@ import {
 // =================================
 
 /**
- * Busca a lista de sermões do usuário logado na API /api/sermons.
+ * Busca a lista de sermões do usuário logado na API
  */
 export const fetchSermons = async (): Promise<Sermon[]> => {
   try {
-    const { data } = await axios.get<Sermon[]>("/api/sermoes");
+    const { data } = await axios.get<Sermon[]>("/api/sermons");
     return data;
   } catch (error) {
     console.error("Erro ao buscar sermões:", error);
@@ -26,11 +26,11 @@ export const fetchSermons = async (): Promise<Sermon[]> => {
 };
 
 /**
- * Cria um novo sermão (SALVA NO DB) na API POST /api/sermons.
+ * Cria um novo sermão (SALVA NO DB) na API
  */
 export const createSermon = async (data: Partial<Sermon>): Promise<Sermon> => {
   try {
-    const response = await axios.post<Sermon>("/api/sermoes", data);
+    const response = await axios.post<Sermon>("/api/sermons", data);
     return response.data;
   } catch (error) {
     console.error("Erro ao criar sermão:", error);
@@ -50,7 +50,7 @@ export const generateThemeSuggestions = async (
 ): Promise<GenerateThemeResponse> => {
   try {
     const response = await axios.post<GenerateThemeResponse>(
-      "/api/sermoes/suggest-themes",
+      "/api/sermons/suggest-themes",
       payload
     );
     return response.data;
@@ -68,7 +68,7 @@ export const generateFullSermon = async (
 ): Promise<GenerateFullSermonResponse> => {
   try {
     const response = await axios.post<GenerateFullSermonResponse>(
-      "/api/sermoes/generate-full",
+      "/api/sermons/generate-full",
       payload
     );
     return response.data;
