@@ -98,8 +98,8 @@ export default function SermonEditor({
       transition={{ duration: 0.5 }}
       className="space-y-6"
     >
-      {/* Card: Título e Introdução */}
-      <Card>
+      {/* Card: Título e Introdução (Nenhuma mudança) */}
+      <Card className="py-4">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">
             Detalhes do Sermão
@@ -141,7 +141,7 @@ export default function SermonEditor({
       </Card>
 
       {/* Card: Pontos Principais */}
-      <Card>
+      <Card className="py-4">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">
             Pontos Principais
@@ -151,7 +151,7 @@ export default function SermonEditor({
           {editedSermon.mainPoints.map((point, pointIndex) => (
             <div
               key={pointIndex}
-              className="p-4 border rounded-lg shadow-sm bg-gray-50"
+              className="p-4 border rounded-lg shadow-sm bg-secondary"
             >
               <div className="flex justify-between items-center mb-2">
                 <Label
@@ -164,10 +164,9 @@ export default function SermonEditor({
                   variant="ghost"
                   size="sm"
                   onClick={() => removeMainPoint(pointIndex)}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-destructive font-light hover:text-destructive/90"
                 >
                   <Trash2 className="w-4 h-4 mr-1" />
-                  Remover
                 </Button>
               </div>
               <div className="space-y-3">
@@ -178,6 +177,7 @@ export default function SermonEditor({
                     handleMainPointChange(pointIndex, "title", e.target.value)
                   }
                   placeholder="Título do Ponto Principal"
+                  className="border-muted-foreground"
                 />
                 <Textarea
                   id={`point-explanation-${pointIndex}`}
@@ -191,57 +191,65 @@ export default function SermonEditor({
                   }
                   rows={4}
                   placeholder="Explicação do ponto"
+                  className="border-muted-foreground"
                 />
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium">
-                    Referências Bíblicas
-                  </Label>
-                  {point.scriptureReferences.map((ref, refIndex) => (
-                    <div key={refIndex} className="flex items-center gap-2">
-                      <Input
-                        value={ref}
-                        onChange={(e) =>
-                          handleReferenceChange(
-                            pointIndex,
-                            refIndex,
-                            e.target.value
-                          )
-                        }
-                        placeholder="Ex: João 3:16"
-                        className="flex-1"
-                      />
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeReference(pointIndex, refIndex)}
-                        className="text-gray-500 hover:text-red-500"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  ))}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => addReference(pointIndex)}
-                    className="mt-1"
-                  >
-                    <Plus className="w-4 h-4 mr-1" />
-                    Adicionar Referência
-                  </Button>
+                <div>
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium">
+                      Referências Bíblicas
+                    </Label>
+                    {point.scriptureReferences.map((ref, refIndex) => (
+                      <div key={refIndex} className="flex items-center gap-2">
+                        <Input
+                          value={ref}
+                          onChange={(e) =>
+                            handleReferenceChange(
+                              pointIndex,
+                              refIndex,
+                              e.target.value
+                            )
+                          }
+                          placeholder="Ex: João 3:16"
+                          className="flex-1 border-muted-foreground"
+                        />
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => removeReference(pointIndex, refIndex)}
+                          className="text-muted-foreground hover:text-destructive"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex justify-end">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => addReference(pointIndex)}
+                      className="mt-1"
+                    >
+                      <Plus className="w-4 h-4 mr-1" />
+                      Adicionar Referência
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
           ))}
-          <Button variant="default" onClick={addMainPoint} className="w-full">
+          <Button
+            variant="default"
+            onClick={addMainPoint}
+            className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 w-full"
+          >
             <Plus className="w-5 h-5 mr-2" />
             Adicionar Ponto Principal
           </Button>
         </CardContent>
       </Card>
 
-      {/* Card: Conclusão e Notas */}
-      <Card>
+      <Card className="py-4">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">Finalização</CardTitle>
         </CardHeader>
@@ -263,23 +271,9 @@ export default function SermonEditor({
               placeholder="Digite a conclusão"
             />
           </div>
-          {/* O Base44 não tinha Notas no editor, mas podemos adicionar
-          <div>
-            <Label htmlFor="notes" className="font-semibold">
-              Notas Pessoais (Opcional)
-            </Label>
-            <Textarea
-              id="notes"
-              placeholder="Adicione quaisquer notas ou lembretes"
-              rows={3}
-              // Você precisaria adicionar 'notes' ao estado 'editedSermon'
-            />
-          </div>
-          */}
         </CardContent>
       </Card>
 
-      {/* Botão Salvar Fixo */}
       <div className="flex justify-end pt-4 sticky bottom-4">
         <Button
           onClick={() => onSave(editedSermon)}

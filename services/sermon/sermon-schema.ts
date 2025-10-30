@@ -66,6 +66,7 @@ export type GenerateThemeResponse = {
  * O que o frontend envia para a rota /generate-full
  */
 export type GenerateFullSermonPayload = {
+  serviceType: ServiceType;
   theme: string;
   keyVerse: string;
 };

@@ -68,6 +68,7 @@ export const generateFullSermon = async (
   payload: GenerateFullSermonPayload
 ): Promise<GenerateFullSermonResponse> => {
   try {
+    console.log("payload: ", payload);
     const response = await axios.post<GenerateFullSermonResponse>(
       "/api/sermons/generate-full",
       payload

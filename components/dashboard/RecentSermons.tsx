@@ -133,14 +133,14 @@ export default function RecentSermons({
                           {serviceTypeLabels[sermon.serviceType]}
                         </Badge>
                       </div>
-                      <h3 className="font-bold text-gray-900 mb-1 group-hover:text-indigo-600 transition-colors truncate">
+                      <h3 className="font-bold text-foreground mb-1 group-hover:text-primary transition-colors truncate">
                         {" "}
                         {sermon.title}
                       </h3>
-                      <p className="text-sm text-gray-600 line-clamp-1">
+                      <p className="text-sm text-muted-foreground line-clamp-1">
                         {sermon.theme}
                       </p>
-                      <p className="text-xs text-gray-400 mt-2">
+                      <p className="text-xs text-muted-foreground mt-2">
                         {format(
                           new Date(sermon.createdAt),
                           "d 'de' MMMM 'às' HH:mm",
@@ -148,7 +148,7 @@ export default function RecentSermons({
                         )}
                       </p>
                     </div>
-                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all shrink-0" />{" "}
+                    <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0" />{" "}
                   </div>
                 </CardContent>
               </Card>

@@ -96,8 +96,11 @@ export default function CriarSermaoPage() {
   };
 
   const handleThemeSelect = (theme: ThemeSuggestion) => {
+    if (!selectedServiceType) return;
     setSelectedTheme(theme);
+    console.log("Tema Selecionado: ", theme);
     generateSermon({
+      serviceType: selectedServiceType,
       theme: theme.theme,
       keyVerse: theme.key_verse,
     });
