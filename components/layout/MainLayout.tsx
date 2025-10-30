@@ -33,6 +33,7 @@ import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
 import { useCurrentUser } from "@/services/user/user.queries";
 import { logoutUser } from "@/services/auth/auth-requests";
+import { ThemeToggle } from "../ui/theme-toggle";
 
 const navigationItems = [
   { title: "Painel", url: createPageUrl("Dashboard"), icon: LayoutDashboard },
@@ -102,18 +103,24 @@ export default function MainLayout({
         {/* SIDEBAR */}
         <Sidebar className="border-r border-border bg-card/80 backdrop-blur-sm shadow-sm rounded-r-2xl">
           <SidebarHeader className="border-b border-border p-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-linear-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg">
-                <BookOpen className="w-6 h-6 text-primary-foreground" />
+            <div className="flex items-center justify-between">
+              {/* 2. Criamos um 'div' para agrupar o logo e o texto */}
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-linear-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg">
+                  <BookOpen className="w-6 h-6 text-primary-foreground" />
+                </div>
+                <div>
+                  <h1 className="flex-1 text-xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
+                    Meu Sermão
+                  </h1>
+                  <p className="text-xs text-muted-foreground">
+                    Sermões inspiradores
+                  </p>
+                </div>
               </div>
-              <div>
-                <h2 className="font-bold text-xl bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Meu Sermão
-                </h2>
-                <p className="text-xs text-muted-foreground">
-                  Sermões inspiradores
-                </p>
-              </div>
+
+              {/* 3. O ThemeToggle agora é "irmão" do grupo de logo, e não "filho" */}
+              <ThemeToggle />
             </div>
           </SidebarHeader>
 

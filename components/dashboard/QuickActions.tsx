@@ -24,7 +24,7 @@ export default function QuickActions({
       description: "Comece um novo sermão com ajuda da IA",
       icon: PlusCircle,
       gradient: "from-blue-600 to-indigo-600",
-      bgGradient: "from-blue-50 to-indigo-50",
+      bgGradient: "from-blue-100 to-indigo-100",
       url: "/criar-sermao",
       disabled: !canCreateSermon,
     },
@@ -40,7 +40,7 @@ export default function QuickActions({
   ];
 
   return (
-    <Card className="border-none shadow-lg py-4">
+    <Card className="bg-secondary shadow-lg hover:shadow-xl transition-all duration-300 py-4">
       <CardHeader className="pb-3 md:pb-6">
         <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
           <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-indigo-600" />

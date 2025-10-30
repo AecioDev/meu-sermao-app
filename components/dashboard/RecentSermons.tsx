@@ -48,7 +48,7 @@ export default function RecentSermons({
 }: RecentSermonsProps) {
   if (isLoading) {
     return (
-      <Card className="border-none shadow-lg py-4">
+      <Card className="bg-secondary shadow-lg hover:shadow-xl transition-all duration-300 py-4">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
             <Clock className="w-5 h-5 md:w-6 md:h-6 text-indigo-600" />
@@ -68,7 +68,7 @@ export default function RecentSermons({
 
   if (sermons.length === 0) {
     return (
-      <Card className="border-none shadow-lg py-4">
+      <Card className="bg-secondary shadow-lg hover:shadow-xl transition-all duration-300 py-4">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
             <Clock className="w-6 h-6 text-indigo-600" />
@@ -77,13 +77,13 @@ export default function RecentSermons({
         </CardHeader>
         <CardContent>
           <div className="text-center py-12">
-            <div className="w-20 h-20 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-              <FileText className="w-10 h-10 text-gray-400" />
+            <div className="w-20 h-20 mx-auto mb-4 bg-linear-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
+              <FileText className="w-10 h-10 text-muted" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <h3 className="text-lg font-semibold text-muted-foreground mb-2">
               Nenhum sermão ainda
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-foreground mb-6">
               Comece criando seu primeiro sermão inspirador!
             </p>
             <Link href="/criar-sermao">
@@ -99,7 +99,7 @@ export default function RecentSermons({
   }
 
   return (
-    <Card className="border-none shadow-lg">
+    <Card className="bg-secondary shadow-lg hover:shadow-xl transition-all duration-300 py-4">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="flex items-center gap-2 text-xl">
           <Clock className="w-6 h-6 text-indigo-600" />

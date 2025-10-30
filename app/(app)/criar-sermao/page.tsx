@@ -17,14 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  ArrowLeft,
-  BookIcon,
-  BookOpenCheckIcon,
-  BrainCircuit,
-  Loader2,
-  Sparkles,
-} from "lucide-react";
+import { ArrowLeft, BookOpenCheckIcon, Loader2, Sparkles } from "lucide-react";
 
 // Componentes das Etapas
 import ServiceTypeSelector from "@/components/criar-sermao/ServiceTypeSelector";
@@ -86,7 +79,6 @@ export default function CriarSermaoPage() {
   const { mutate: saveSermon, isPending: isSaving } = useCreateSermon({
     onSuccess: () => {
       setApiError(null);
-      // Sucesso! Limpa o cache (o hook já faz) e redireciona.
       router.push("/dashboard"); // Ou para a página de "biblioteca"
     },
     onError: (error) => {
@@ -200,15 +192,15 @@ export default function CriarSermaoPage() {
 
   return (
     <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-6">
-      {/* Cabeçalho com Botão Voltar */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <BookOpenCheckIcon className="w-10 h-10 text-indigo-600" />
+          <BookOpenCheckIcon className="w-10 h-10 text-primary" />
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-foreground">
               Assistente de Sermão
             </h1>
-            <p className="text-lg text-gray-600">
+
+            <p className="text-lg text-muted-foreground">
               Gere um esboço completo em 3 etapas fáceis.
             </p>
           </div>
@@ -226,17 +218,15 @@ export default function CriarSermaoPage() {
         )}
       </div>
 
-      {/* Alerta de Erro */}
       {apiError && (
         <Alert variant="destructive">
           <Sparkles className="h-4 w-4" />
-          <AlertTitle>Ops! Algo deu errado</AlertTitle>
+          <AlertTitle>Ocorreu um Erro</AlertTitle>
           <AlertDescription>{apiError}</AlertDescription>
         </Alert>
       )}
 
-      {/* Conteúdo da Etapa */}
-      <div className="animate-in fade-in duration-500">{renderStep()}</div>
+      <div className="transition-all duration-300">{renderStep()}</div>
     </div>
   );
 }

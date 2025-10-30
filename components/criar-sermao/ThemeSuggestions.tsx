@@ -27,7 +27,7 @@ export default function ThemeSuggestions({
           transition={{ duration: 0.3, delay: index * 0.1 }}
         >
           <Card
-            className="group cursor-pointer hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-indigo-400"
+            className="group cursor-pointer hover:shadow-xl transition-all duration-300 border-2 border-transparent bg-secondary hover:border-primary"
             onClick={() => onSelect(theme)}
           >
             <CardContent className="p-6">
@@ -41,14 +41,17 @@ export default function ThemeSuggestions({
                       {theme.key_verse}
                     </Badge>
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+
+                  <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
                     {theme.theme}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+
+                  <p className="text-muted-foreground leading-relaxed">
                     {theme.description}
                   </p>
                 </div>
-                <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all shrink-0 mt-1" />
+
+                <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all shrink-0 mt-1" />
               </div>
             </CardContent>
           </Card>

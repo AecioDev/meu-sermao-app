@@ -14,7 +14,7 @@ if (!GEMINI_API_KEY) {
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash-latest", // Usando o 1.5-flash que é ótimo com JSON
+  model: "gemini-2.5-flash",
 });
 
 const generationConfig: GenerationConfig = {
@@ -47,6 +47,8 @@ const safetySettings = [
 // NOVA FUNÇÃO 1: Sugerir Temas (em JSON)
 // =================================
 export async function generateThemeSuggestions(serviceType: string) {
+  //
+
   const generationConfigWithJson: GenerationConfig = {
     ...generationConfig,
     responseMimeType: "application/json", // A MÁGICA!

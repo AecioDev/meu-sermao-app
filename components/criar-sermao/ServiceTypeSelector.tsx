@@ -104,18 +104,20 @@ export default function ServiceTypeSelector({
           transition={{ duration: 0.3, delay: index * 0.05 }}
         >
           <Card
-            className="group cursor-pointer hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-indigo-300"
+            className="group cursor-pointer hover:shadow-xl transition-all duration-300 border-2 border-transparent bg-secondary hover:border-primary"
             onClick={() => onSelect(type.id)}
           >
             <CardContent className="p-6 text-center">
               <div
-                className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-linear-to-br ${type.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}
+                className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-linear-to-br ${type.color} flex items-center justify-center text-white shadow-lg transition-all duration-300 group-hover:scale-110`}
               >
-                <type.icon className="w-8 h-8 text-white" />
+                <type.icon className="w-8 h-8" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-800">
+              <p
+                className={`text-lg font-semibold bg-linear-to-br ${type.color} bg-clip-text text-transparent`}
+              >
                 {type.label}
-              </h3>
+              </p>
             </CardContent>
           </Card>
         </motion.div>

@@ -49,6 +49,7 @@ export const generateThemeSuggestions = async (
   payload: GenerateThemePayload
 ): Promise<GenerateThemeResponse> => {
   try {
+    console.log("Chama API");
     const response = await axios.post<GenerateThemeResponse>(
       "/api/sermons/suggest-themes",
       payload
