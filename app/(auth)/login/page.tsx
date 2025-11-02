@@ -12,12 +12,12 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { BookOpen, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { loginUser } from "@/services/auth/auth-requests";
+import ThemedLogo from "@/components/layout/ThemedLogo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -54,14 +54,10 @@ export default function LoginPage() {
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md shadow-xl">
       <CardHeader className="text-center">
-        <div className="flex justify-center items-center gap-2 mb-2">
-          <BookOpen className="w-6 h-6 text-primary" />
-          <h1 className="text-2xl font-bold text-primary">Meu Sermão</h1>
-        </div>
-        <CardTitle className="text-2xl">Acesse sua Conta</CardTitle>
-        <CardDescription>Bem-vindo de volta!</CardDescription>
+        <ThemedLogo width={120} heigth={120} />
+        <CardDescription>Entre na sua conta para continuar</CardDescription>
       </CardHeader>
 
       <CardContent>
@@ -71,15 +67,22 @@ export default function LoginPage() {
             <Input
               id="email"
               type="email"
-              placeholder="seu@email.com"
+              placeholder="exemplo@email.com"
               required
               onChange={handleChange}
               disabled={isLoading}
             />
           </div>
-
           <div className="space-y-2">
-            <Label htmlFor="password">Senha</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Senha</Label>
+              <Link
+                href="#"
+                className="text-sm font-medium text-primary hover:underline"
+              >
+                Esqueceu a senha?
+              </Link>
+            </div>
             <div className="relative">
               <Input
                 id="password"
@@ -113,7 +116,7 @@ export default function LoginPage() {
           </Button>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-center">
+      <CardFooter className="flex justify-center mb-4">
         <p className="text-sm text-muted-foreground">
           Não tem uma conta?{" "}
           <Link

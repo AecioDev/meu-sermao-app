@@ -43,6 +43,22 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
   --color-qbranco: var(--quase-branco);
+
+  --color-indigo-escuro: var(--indigo-escuro);
+  --color-indigo-claro: var(--indigo-claro);
+  --color-azul-medio: var(--azul-medio);
+  --color-azul-claro: var(--azul-claro);
+  --color-azul-50: var(--azul-50);
+  --color-verde: var(--verde);
+  --color-lima: var(--lima);
+  --color-ambar: var(--ambar);
+  --color-laranja: var(--laranja);
+  --color-vermelho: var(--vermelho);
+  --color-roxo: var(--roxo);
+  --color-rosa: var(--rosa);
+  --color-quase-branco: var(--quase-branco);
+  --color-branco: var(--branco);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

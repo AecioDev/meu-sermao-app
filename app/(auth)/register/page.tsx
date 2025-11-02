@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BookOpen, Eye, EyeOff } from "lucide-react";
 import { registerUser } from "@/services/auth/auth-requests";
+import ThemedLogo from "@/components/layout/ThemedLogo";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -66,15 +67,10 @@ export default function RegisterPage() {
 
   return (
     <Card className="w-full max-w-md">
-      {/* ... (CardHeader não muda) ... */}
       <CardHeader className="text-center">
-        <div className="flex justify-center items-center gap-2 mb-2">
-          <BookOpen className="w-6 h-6 text-primary" />
-          <h1 className="text-2xl font-bold text-primary">Meu Sermão</h1>
-        </div>
-        <CardTitle className="text-2xl">Crie sua Conta Grátis</CardTitle>
+        <ThemedLogo width={120} heigth={120} />
         <CardDescription>
-          Preencha os dados para começar a criar.
+          Preencha os dados para começar a criar sua conta.
         </CardDescription>
       </CardHeader>
 
@@ -164,8 +160,7 @@ export default function RegisterPage() {
           </Button>
         </form>
       </CardContent>
-      {/* ... (CardFooter não muda) ... */}
-      <CardFooter className="flex justify-center">
+      <CardFooter className="flex justify-center mb-4">
         <p className="text-sm text-muted-foreground">
           Já tem uma conta?{" "}
           <Link

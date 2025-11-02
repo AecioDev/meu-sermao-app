@@ -34,6 +34,8 @@ import { Skeleton } from "../ui/skeleton";
 import { useCurrentUser } from "@/services/user/user.queries";
 import { logoutUser } from "@/services/auth/auth-requests";
 import { ThemeToggle } from "../ui/theme-toggle";
+import ThemedLogo from "./ThemedLogo";
+import SwitchButton from "../ui/teste-toggle";
 
 const navigationItems = [
   { title: "Painel", url: createPageUrl("Dashboard"), icon: LayoutDashboard },
@@ -104,11 +106,8 @@ export default function MainLayout({
         <Sidebar className="border-r border-border bg-card/80 backdrop-blur-sm shadow-sm rounded-r-2xl">
           <SidebarHeader className="border-b border-border p-6">
             <div className="flex items-center justify-between">
-              {/* 2. Criamos um 'div' para agrupar o logo e o texto */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-linear-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg">
-                  <BookOpen className="w-6 h-6 text-primary-foreground" />
-                </div>
+                <ThemedLogo width={32} heigth={32} />
                 <div>
                   <h1 className="flex-1 text-xl font-bold bg-linear-to-r from-primary to-accent bg-clip-text text-transparent">
                     Meu Sermão
@@ -118,9 +117,6 @@ export default function MainLayout({
                   </p>
                 </div>
               </div>
-
-              {/* 3. O ThemeToggle agora é "irmão" do grupo de logo, e não "filho" */}
-              <ThemeToggle />
             </div>
           </SidebarHeader>
 
@@ -240,15 +236,18 @@ export default function MainLayout({
                   </div>
                 </div>
               </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleLogout}
-                className="w-full justify-start text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Sair
-              </Button>
+              <div className="flex items-center justify-between">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="text-destructive hover:text-destructive/90 hover:bg-muted hover:border hover:border-destructive"
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sair
+                </Button>
+                <ThemeToggle />
+              </div>
             </div>
           </SidebarFooter>
         </Sidebar>

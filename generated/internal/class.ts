@@ -22,7 +22,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "C:\\React\\meu-sermao-app\\generated",
+      "value": "F:\\React\\meu-sermao-app\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -36,7 +36,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\React\\meu-sermao-app\\prisma\\schema.prisma",
+    "sourceFilePath": "F:\\React\\meu-sermao-app\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../prisma",
@@ -46,6 +46,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
