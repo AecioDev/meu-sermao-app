@@ -38,6 +38,34 @@ export const createSermon = async (data: Partial<Sermon>): Promise<Sermon> => {
   }
 };
 
+/**
+ * Atualiza um sermão (PATCH) na API
+ */
+export const updateSermon = async (
+  payload: { id: string } & Partial<Sermon>
+): Promise<Sermon> => {
+  const { id, ...data } = payload;
+  try {
+    const response = await axios.patch<Sermon>(`/api/sermons/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao atualizar sermão:", error);
+    throw error;
+  }
+};
+
+/**
+ * Deleta um sermão específico na API
+ */
+export const deleteSermon = async (sermonId: string): Promise<void> => {
+  try {
+    await axios.delete(`/api/sermons/${sermonId}`);
+  } catch (error) {
+    console.error("Erro ao deletar sermão:", error);
+    throw error;
+  }
+};
+
 // =================================
 // NOVAS FUNÇÕES PARA A IA
 // =================================

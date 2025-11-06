@@ -1,6 +1,5 @@
 // app/api/sermons/route.ts
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { PrismaClient, ServiceType } from "@/generated/client";
 import { PrismaClientValidationError } from "@prisma/client/runtime/library";
 import { getAuthUser } from "@/lib/auth";
@@ -11,8 +10,6 @@ const prisma = new PrismaClient();
 export async function GET(request: Request) {
   try {
     const { user, error, status } = await getAuthUser(request);
-
-    // Se deu erro na autenticação, só retorna o erro
     if (error) {
       return NextResponse.json({ error }, { status });
     }
@@ -34,8 +31,6 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const { user, error, status } = await getAuthUser(request);
-
-    // Se deu erro na autenticação, só retorna o erro
     if (error) {
       return NextResponse.json({ error }, { status });
     }

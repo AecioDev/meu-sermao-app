@@ -34,7 +34,7 @@ export default function QuickActions({
       icon: Library,
       gradient: "from-purple-600 to-pink-600",
       bgGradient: "from-purple-50 to-pink-50",
-      url: "/sermon-library",
+      url: "/biblioteca",
       disabled: false,
     },
   ];

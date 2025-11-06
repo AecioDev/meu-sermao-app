@@ -10,6 +10,8 @@ import {
   fetchSermons,
   generateThemeSuggestions,
   generateFullSermon,
+  deleteSermon,
+  updateSermon,
 } from "./sermon-requests";
 import {
   Sermon,
@@ -46,6 +48,88 @@ export const useCreateSermon = (
     onSuccess: (newSermon, variables, context, mutation) => {
       queryClient.invalidateQueries({ queryKey: sermonsQueryKey });
       options.onSuccess?.(newSermon, variables, context, mutation);
+    },
+    ...options,
+  });
+};
+
+/**
+ * Hook customizado (Mutation) para ATUALIZAR um sermão (ex: favoritar).
+ * Usa uma atualização otimista para o UX ser instantâneo.
+ */
+
+type UpdateSermonContext = {
+  previousSermons: Sermon[] | undefined;
+};
+
+export const useUpdateSermon = (
+  options: UseMutationOptions<
+    Sermon,
+    Error,
+    { id: string } & Partial<Sermon>,
+    UpdateSermonContext
+  > = {}
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    Sermon,
+    Error,
+    { id: string } & Partial<Sermon>,
+    UpdateSermonContext
+  >({
+    mutationFn: updateSermon,
+
+    onMutate: async (updatedSermon) => {
+      await queryClient.cancelQueries({ queryKey: sermonsQueryKey });
+      const previousSermons =
+        queryClient.getQueryData<Sermon[]>(sermonsQueryKey);
+
+      queryClient.setQueryData<Sermon[]>(sermonsQueryKey, (oldSermons = []) =>
+        oldSermons.map((sermon) =>
+          sermon.id === updatedSermon.id
+            ? { ...sermon, ...updatedSermon }
+            : sermon
+        )
+      );
+
+      return { previousSermons };
+    },
+
+    onError: (err, variables, context, mutation) => {
+      if (context?.previousSermons) {
+        queryClient.setQueryData(sermonsQueryKey, context.previousSermons);
+      }
+      options.onError?.(err, variables, context, mutation);
+    },
+
+    onSettled: (data, error, variables, context, mutation) => {
+      queryClient.invalidateQueries({ queryKey: sermonsQueryKey });
+      options.onSettled?.(data, error, variables, context, mutation);
+    },
+    ...options,
+  });
+};
+
+/**
+ * Hook customizado (Mutation) para deletar um sermão.
+ * Invalida o cache da lista de sermões ('sermons') após o sucesso.
+ */
+export const useDeleteSermon = (
+  options: UseMutationOptions<void, Error, string> = {}
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation<void, Error, string>({
+    mutationFn: deleteSermon,
+    onSuccess: (data, sermonId, context, mutation) => {
+      // Invalida a query principal da biblioteca
+      queryClient.invalidateQueries({ queryKey: sermonsQueryKey });
+
+      // Opcional: remover da query individual se você tiver uma
+      // queryClient.removeQueries({ queryKey: [...sermonsQueryKey, 'detail', sermonId] });
+
+      options.onSuccess?.(data, sermonId, context, mutation);
     },
     ...options,
   });

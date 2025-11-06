@@ -27,7 +27,6 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { createPageUrl } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Skeleton } from "../ui/skeleton";
@@ -35,16 +34,15 @@ import { useCurrentUser } from "@/services/user/user.queries";
 import { logoutUser } from "@/services/auth/auth-requests";
 import { ThemeToggle } from "../ui/theme-toggle";
 import ThemedLogo from "./ThemedLogo";
-import SwitchButton from "../ui/teste-toggle";
 
 const navigationItems = [
-  { title: "Painel", url: createPageUrl("Dashboard"), icon: LayoutDashboard },
+  { title: "Painel", url: "/dashboard", icon: LayoutDashboard },
   {
     title: "Criar Sermão",
-    url: createPageUrl("CreateSermon"),
+    url: "criar-sermao",
     icon: PlusCircle,
   },
-  { title: "Biblioteca", url: createPageUrl("SermonLibrary"), icon: Library },
+  { title: "Biblioteca", url: "/biblioteca", icon: Library },
 ];
 
 export default function MainLayout({
@@ -67,7 +65,7 @@ export default function MainLayout({
 
   const isPremium = user?.plan === "premium";
 
-  const noSidebarPages = [createPageUrl("Pricing")];
+  const noSidebarPages = ["/pricing"];
   const shouldShowSidebar = !noSidebarPages.includes(pathname);
 
   if (!shouldShowSidebar) {
@@ -163,13 +161,13 @@ export default function MainLayout({
                     <SidebarMenuButton
                       asChild
                       className={`rounded-xl transition-all duration-200 ${
-                        pathname === createPageUrl("ManageSubscription")
+                        pathname === "/gerenciar-assinatura"
                           ? "bg-linear-to-r from-purple-600 to-pink-600 text-white shadow-md"
                           : "hover:bg-muted hover:text-foreground"
                       }`}
                     >
                       <Link
-                        href={createPageUrl("ManageSubscription")}
+                        href={"/gerenciar-assinatura"}
                         className="flex items-center gap-3 px-4 py-3"
                       >
                         <CreditCard className="w-5 h-5" />
@@ -195,7 +193,7 @@ export default function MainLayout({
                     <p className="text-xs text-muted-foreground mt-1 mb-3">
                       Sermões ilimitados e recursos avançados
                     </p>
-                    <Link href={createPageUrl("Pricing")}>
+                    <Link href={"/pricing"}>
                       <Button
                         size="sm"
                         className="w-full bg-linear-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white shadow-md"
