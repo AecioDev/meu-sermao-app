@@ -37,7 +37,15 @@ const config: runtime.GetPrismaClientConfig = {
       },
       {
         "fromEnvVar": null,
+        "value": "rhel-openssl-1.0.x"
+      },
+      {
+        "fromEnvVar": null,
         "value": "rhel-openssl-3.0.x"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -60,8 +68,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client\"\n  output        = \"../generated\"\n  //output   = \"../lib/generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum ServiceType {\n  missoes\n  ensino\n  adoracao\n  avivamento\n  santa_ceia\n  acao_de_gracas\n  juventude\n  familia\n  evangelismo\n  oracao\n}\n\nenum Plan {\n  free\n  premium\n}\n\nmodel User {\n  id        String @id @default(cuid())\n  email     String @unique\n  full_name String\n  password  String\n\n  plan Plan @default(free)\n\n  sermons_this_month Int      @default(0)\n  last_reset_date    DateTime @default(now())\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  sermons Sermon[]\n}\n\nmodel Sermon {\n  id           String      @id @default(cuid())\n  serviceType  ServiceType\n  theme        String\n  title        String\n  keyVerse     String?\n  introduction String?\n  conclusion   String?\n  notes        String?\n  isFavorite   Boolean     @default(false)\n  createdAt    DateTime    @default(now())\n  updatedAt    DateTime    @updatedAt\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  mainPoints MainPoint[]\n\n  @@index([userId])\n}\n\nmodel MainPoint {\n  id                  String   @id @default(cuid())\n  title               String\n  explanation         String\n  scriptureReferences String[]\n  createdAt           DateTime @default(now())\n  updatedAt           DateTime @updatedAt\n  order               Int      @default(0)\n\n  sermonId String\n  sermon   Sermon @relation(fields: [sermonId], references: [id], onDelete: Cascade)\n\n  @@index([sermonId])\n}\n",
-  "inlineSchemaHash": "1977173319c176a6281a1c6a0d9a6752503c31ed1aa0aaa809548bb566d1e6e1",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client\"\n  output        = \"../generated\"\n  //output   = \"../lib/generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-1.0.x\", \"rhel-openssl-3.0.x\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum ServiceType {\n  missoes\n  ensino\n  adoracao\n  avivamento\n  santa_ceia\n  acao_de_gracas\n  juventude\n  familia\n  evangelismo\n  oracao\n}\n\nenum Plan {\n  free\n  premium\n}\n\nmodel User {\n  id        String @id @default(cuid())\n  email     String @unique\n  full_name String\n  password  String\n\n  plan Plan @default(free)\n\n  sermons_this_month Int      @default(0)\n  last_reset_date    DateTime @default(now())\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  sermons Sermon[]\n}\n\nmodel Sermon {\n  id           String      @id @default(cuid())\n  serviceType  ServiceType\n  theme        String\n  title        String\n  keyVerse     String?\n  introduction String?\n  conclusion   String?\n  notes        String?\n  isFavorite   Boolean     @default(false)\n  createdAt    DateTime    @default(now())\n  updatedAt    DateTime    @updatedAt\n\n  userId String\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  mainPoints MainPoint[]\n\n  @@index([userId])\n}\n\nmodel MainPoint {\n  id                  String   @id @default(cuid())\n  title               String\n  explanation         String\n  scriptureReferences String[]\n  createdAt           DateTime @default(now())\n  updatedAt           DateTime @updatedAt\n  order               Int      @default(0)\n\n  sermonId String\n  sermon   Sermon @relation(fields: [sermonId], references: [id], onDelete: Cascade)\n\n  @@index([sermonId])\n}\n",
+  "inlineSchemaHash": "5ccbcd681ddabed89107911edd41cc0bcafa7a6df030b23219e260570d772d73",
   "copyEngine": true,
   "runtimeDataModel": {
     "models": {},
