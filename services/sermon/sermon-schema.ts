@@ -26,9 +26,11 @@ export type Sermon = {
 
 // Tipo do Ponto Principal (igual ao do JSON da IA)
 export type MainPoint = {
+  id?: string;
   title: string;
   explanation: string;
   scriptureReferences: string[];
+  order?: number; // Opcional
 };
 
 // =================================

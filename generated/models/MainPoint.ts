@@ -19,8 +19,18 @@ export type MainPointModel = runtime.Types.Result.DefaultSelection<Prisma.$MainP
 
 export type AggregateMainPoint = {
   _count: MainPointCountAggregateOutputType | null
+  _avg: MainPointAvgAggregateOutputType | null
+  _sum: MainPointSumAggregateOutputType | null
   _min: MainPointMinAggregateOutputType | null
   _max: MainPointMaxAggregateOutputType | null
+}
+
+export type MainPointAvgAggregateOutputType = {
+  order: number | null
+}
+
+export type MainPointSumAggregateOutputType = {
+  order: number | null
 }
 
 export type MainPointMinAggregateOutputType = {
@@ -29,6 +39,7 @@ export type MainPointMinAggregateOutputType = {
   explanation: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  order: number | null
   sermonId: string | null
 }
 
@@ -38,6 +49,7 @@ export type MainPointMaxAggregateOutputType = {
   explanation: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  order: number | null
   sermonId: string | null
 }
 
@@ -48,10 +60,19 @@ export type MainPointCountAggregateOutputType = {
   scriptureReferences: number
   createdAt: number
   updatedAt: number
+  order: number
   sermonId: number
   _all: number
 }
 
+
+export type MainPointAvgAggregateInputType = {
+  order?: true
+}
+
+export type MainPointSumAggregateInputType = {
+  order?: true
+}
 
 export type MainPointMinAggregateInputType = {
   id?: true
@@ -59,6 +80,7 @@ export type MainPointMinAggregateInputType = {
   explanation?: true
   createdAt?: true
   updatedAt?: true
+  order?: true
   sermonId?: true
 }
 
@@ -68,6 +90,7 @@ export type MainPointMaxAggregateInputType = {
   explanation?: true
   createdAt?: true
   updatedAt?: true
+  order?: true
   sermonId?: true
 }
 
@@ -78,6 +101,7 @@ export type MainPointCountAggregateInputType = {
   scriptureReferences?: true
   createdAt?: true
   updatedAt?: true
+  order?: true
   sermonId?: true
   _all?: true
 }
@@ -120,6 +144,18 @@ export type MainPointAggregateArgs<ExtArgs extends runtime.Types.Extensions.Inte
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: MainPointAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: MainPointSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: MainPointMinAggregateInputType
@@ -150,6 +186,8 @@ export type MainPointGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   _count?: MainPointCountAggregateInputType | true
+  _avg?: MainPointAvgAggregateInputType
+  _sum?: MainPointSumAggregateInputType
   _min?: MainPointMinAggregateInputType
   _max?: MainPointMaxAggregateInputType
 }
@@ -161,8 +199,11 @@ export type MainPointGroupByOutputType = {
   scriptureReferences: string[]
   createdAt: Date
   updatedAt: Date
+  order: number
   sermonId: string
   _count: MainPointCountAggregateOutputType | null
+  _avg: MainPointAvgAggregateOutputType | null
+  _sum: MainPointSumAggregateOutputType | null
   _min: MainPointMinAggregateOutputType | null
   _max: MainPointMaxAggregateOutputType | null
 }
@@ -192,6 +233,7 @@ export type MainPointWhereInput = {
   scriptureReferences?: Prisma.StringNullableListFilter<"MainPoint">
   createdAt?: Prisma.DateTimeFilter<"MainPoint"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MainPoint"> | Date | string
+  order?: Prisma.IntFilter<"MainPoint"> | number
   sermonId?: Prisma.StringFilter<"MainPoint"> | string
   sermon?: Prisma.XOR<Prisma.SermonScalarRelationFilter, Prisma.SermonWhereInput>
 }
@@ -203,6 +245,7 @@ export type MainPointOrderByWithRelationInput = {
   scriptureReferences?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   sermonId?: Prisma.SortOrder
   sermon?: Prisma.SermonOrderByWithRelationInput
 }
@@ -217,6 +260,7 @@ export type MainPointWhereUniqueInput = Prisma.AtLeast<{
   scriptureReferences?: Prisma.StringNullableListFilter<"MainPoint">
   createdAt?: Prisma.DateTimeFilter<"MainPoint"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MainPoint"> | Date | string
+  order?: Prisma.IntFilter<"MainPoint"> | number
   sermonId?: Prisma.StringFilter<"MainPoint"> | string
   sermon?: Prisma.XOR<Prisma.SermonScalarRelationFilter, Prisma.SermonWhereInput>
 }, "id">
@@ -228,10 +272,13 @@ export type MainPointOrderByWithAggregationInput = {
   scriptureReferences?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   sermonId?: Prisma.SortOrder
   _count?: Prisma.MainPointCountOrderByAggregateInput
+  _avg?: Prisma.MainPointAvgOrderByAggregateInput
   _max?: Prisma.MainPointMaxOrderByAggregateInput
   _min?: Prisma.MainPointMinOrderByAggregateInput
+  _sum?: Prisma.MainPointSumOrderByAggregateInput
 }
 
 export type MainPointScalarWhereWithAggregatesInput = {
@@ -244,6 +291,7 @@ export type MainPointScalarWhereWithAggregatesInput = {
   scriptureReferences?: Prisma.StringNullableListFilter<"MainPoint">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MainPoint"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"MainPoint"> | Date | string
+  order?: Prisma.IntWithAggregatesFilter<"MainPoint"> | number
   sermonId?: Prisma.StringWithAggregatesFilter<"MainPoint"> | string
 }
 
@@ -254,6 +302,7 @@ export type MainPointCreateInput = {
   scriptureReferences?: Prisma.MainPointCreatescriptureReferencesInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  order?: number
   sermon: Prisma.SermonCreateNestedOneWithoutMainPointsInput
 }
 
@@ -264,6 +313,7 @@ export type MainPointUncheckedCreateInput = {
   scriptureReferences?: Prisma.MainPointCreatescriptureReferencesInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  order?: number
   sermonId: string
 }
 
@@ -274,6 +324,7 @@ export type MainPointUpdateInput = {
   scriptureReferences?: Prisma.MainPointUpdatescriptureReferencesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   sermon?: Prisma.SermonUpdateOneRequiredWithoutMainPointsNestedInput
 }
 
@@ -284,6 +335,7 @@ export type MainPointUncheckedUpdateInput = {
   scriptureReferences?: Prisma.MainPointUpdatescriptureReferencesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   sermonId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -294,6 +346,7 @@ export type MainPointCreateManyInput = {
   scriptureReferences?: Prisma.MainPointCreatescriptureReferencesInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  order?: number
   sermonId: string
 }
 
@@ -304,6 +357,7 @@ export type MainPointUpdateManyMutationInput = {
   scriptureReferences?: Prisma.MainPointUpdatescriptureReferencesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type MainPointUncheckedUpdateManyInput = {
@@ -313,6 +367,7 @@ export type MainPointUncheckedUpdateManyInput = {
   scriptureReferences?: Prisma.MainPointUpdatescriptureReferencesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   sermonId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -341,7 +396,12 @@ export type MainPointCountOrderByAggregateInput = {
   scriptureReferences?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   sermonId?: Prisma.SortOrder
+}
+
+export type MainPointAvgOrderByAggregateInput = {
+  order?: Prisma.SortOrder
 }
 
 export type MainPointMaxOrderByAggregateInput = {
@@ -350,6 +410,7 @@ export type MainPointMaxOrderByAggregateInput = {
   explanation?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   sermonId?: Prisma.SortOrder
 }
 
@@ -359,7 +420,12 @@ export type MainPointMinOrderByAggregateInput = {
   explanation?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   sermonId?: Prisma.SortOrder
+}
+
+export type MainPointSumOrderByAggregateInput = {
+  order?: Prisma.SortOrder
 }
 
 export type MainPointCreateNestedManyWithoutSermonInput = {
@@ -420,6 +486,7 @@ export type MainPointCreateWithoutSermonInput = {
   scriptureReferences?: Prisma.MainPointCreatescriptureReferencesInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  order?: number
 }
 
 export type MainPointUncheckedCreateWithoutSermonInput = {
@@ -429,6 +496,7 @@ export type MainPointUncheckedCreateWithoutSermonInput = {
   scriptureReferences?: Prisma.MainPointCreatescriptureReferencesInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  order?: number
 }
 
 export type MainPointCreateOrConnectWithoutSermonInput = {
@@ -467,6 +535,7 @@ export type MainPointScalarWhereInput = {
   scriptureReferences?: Prisma.StringNullableListFilter<"MainPoint">
   createdAt?: Prisma.DateTimeFilter<"MainPoint"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MainPoint"> | Date | string
+  order?: Prisma.IntFilter<"MainPoint"> | number
   sermonId?: Prisma.StringFilter<"MainPoint"> | string
 }
 
@@ -477,6 +546,7 @@ export type MainPointCreateManySermonInput = {
   scriptureReferences?: Prisma.MainPointCreatescriptureReferencesInput | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  order?: number
 }
 
 export type MainPointUpdateWithoutSermonInput = {
@@ -486,6 +556,7 @@ export type MainPointUpdateWithoutSermonInput = {
   scriptureReferences?: Prisma.MainPointUpdatescriptureReferencesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type MainPointUncheckedUpdateWithoutSermonInput = {
@@ -495,6 +566,7 @@ export type MainPointUncheckedUpdateWithoutSermonInput = {
   scriptureReferences?: Prisma.MainPointUpdatescriptureReferencesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type MainPointUncheckedUpdateManyWithoutSermonInput = {
@@ -504,6 +576,7 @@ export type MainPointUncheckedUpdateManyWithoutSermonInput = {
   scriptureReferences?: Prisma.MainPointUpdatescriptureReferencesInput | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -515,6 +588,7 @@ export type MainPointSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   scriptureReferences?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  order?: boolean
   sermonId?: boolean
   sermon?: boolean | Prisma.SermonDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mainPoint"]>
@@ -526,6 +600,7 @@ export type MainPointSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   scriptureReferences?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  order?: boolean
   sermonId?: boolean
   sermon?: boolean | Prisma.SermonDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mainPoint"]>
@@ -537,6 +612,7 @@ export type MainPointSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   scriptureReferences?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  order?: boolean
   sermonId?: boolean
   sermon?: boolean | Prisma.SermonDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["mainPoint"]>
@@ -548,10 +624,11 @@ export type MainPointSelectScalar = {
   scriptureReferences?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  order?: boolean
   sermonId?: boolean
 }
 
-export type MainPointOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "explanation" | "scriptureReferences" | "createdAt" | "updatedAt" | "sermonId", ExtArgs["result"]["mainPoint"]>
+export type MainPointOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "explanation" | "scriptureReferences" | "createdAt" | "updatedAt" | "order" | "sermonId", ExtArgs["result"]["mainPoint"]>
 export type MainPointInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sermon?: boolean | Prisma.SermonDefaultArgs<ExtArgs>
 }
@@ -574,6 +651,7 @@ export type $MainPointPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     scriptureReferences: string[]
     createdAt: Date
     updatedAt: Date
+    order: number
     sermonId: string
   }, ExtArgs["result"]["mainPoint"]>
   composites: {}
@@ -1005,6 +1083,7 @@ export interface MainPointFieldRefs {
   readonly scriptureReferences: Prisma.FieldRef<"MainPoint", 'String[]'>
   readonly createdAt: Prisma.FieldRef<"MainPoint", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"MainPoint", 'DateTime'>
+  readonly order: Prisma.FieldRef<"MainPoint", 'Int'>
   readonly sermonId: Prisma.FieldRef<"MainPoint", 'String'>
 }
     

@@ -51,6 +51,8 @@ export default function BibliotecaPage() {
   const { data: user, isLoading: isLoadingUser } = useCurrentUser();
   const { data: sermons = [], isLoading: isLoadingSermons } = useSermons();
 
+  console.log("Lista de Sermões: ", sermons);
+
   const isPremium = user?.plan === "premium";
 
   const deleteSermon = useDeleteSermon({
@@ -225,7 +227,7 @@ ${sermon.notes ?? "Nenhuma"}
 
       {/* Diálogo de Detalhes */}
       <Dialog open={showDetails} onOpenChange={setShowDetails}>
-        <DialogContent className="max-w-5xl max-h-[90vh] p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-muted-foreground/20">
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-muted-foreground/20">
           <DialogTitle className="sr-only">
             Detalhes do Sermão: {selectedSermon?.title}
           </DialogTitle>

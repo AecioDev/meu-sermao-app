@@ -107,7 +107,7 @@ export default function SermonEditor({
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <Label htmlFor="title" className="font-semibold">
+            <Label htmlFor="title" className="font-semibold mb-2">
               Título
             </Label>
             <Input
@@ -121,7 +121,7 @@ export default function SermonEditor({
             />
           </div>
           <div>
-            <Label htmlFor="introduction" className="font-semibold">
+            <Label htmlFor="introduction" className="font-semibold mb-2">
               Introdução
             </Label>
             <Textarea
@@ -254,22 +254,26 @@ export default function SermonEditor({
           <CardTitle className="text-2xl font-bold">Finalização</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div>
-            <Label htmlFor="conclusion" className="font-semibold">
-              Conclusão
-            </Label>
-            <Textarea
-              id="conclusion"
-              value={editedSermon.conclusion}
-              onChange={(e) =>
-                setEditedSermon({
-                  ...editedSermon,
-                  conclusion: e.target.value,
-                })
-              }
-              rows={5}
-              placeholder="Digite a conclusão"
-            />
+          <div className="p-4 border rounded-lg shadow-sm bg-secondary">
+            <div className="flex justify-between items-center mb-2">
+              <Label htmlFor="conclusion" className="text-lg font-semibold">
+                Conclusão
+              </Label>
+            </div>
+            <div className="space-y-3">
+              <Textarea
+                id="conclusion"
+                value={editedSermon.conclusion}
+                onChange={(e) =>
+                  setEditedSermon({
+                    ...editedSermon,
+                    conclusion: e.target.value,
+                  })
+                }
+                rows={5}
+                placeholder="Digite a conclusão"
+              />
+            </div>
           </div>
         </CardContent>
       </Card>

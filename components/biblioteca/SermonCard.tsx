@@ -28,13 +28,13 @@ export function SermonCard({
   onToggleFavorite,
 }: Props) {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-md transition-shadow p-5 space-y-4">
+    <div className="bg-card rounded-xl shadow-sm border hover:shadow-md transition-shadow p-5 space-y-4">
       <div className="flex items-start justify-between">
         <Badge className={serviceTypeColors[sermon.serviceType]}>
           {serviceTypeColors[sermon.serviceType] ? (
-            <>{sermon.serviceType.replace(/_/g, " ")}</>
+            <span>{sermon.serviceType.replace(/_/g, " ")}</span>
           ) : (
-            sermon.serviceType
+            <span>{sermon.serviceType.replace(/_/g, " ")}</span>
           )}
         </Badge>
         <DropdownMenu>
@@ -47,7 +47,7 @@ export function SermonCard({
             <DropdownMenuItem onClick={onToggleFavorite}>
               <Star
                 className={`h-4 w-4 mr-2 ${
-                  sermon.isFavorite ? "fill-yellow-500 text-yellow-500" : ""
+                  sermon.isFavorite ? "fill-amber-500 text-amber-500" : ""
                 }`}
               />
               {sermon.isFavorite ? "Remover favorito" : "Marcar favorito"}
@@ -56,7 +56,7 @@ export function SermonCard({
               <Copy className="h-4 w-4 mr-2" />
               Copiar conteúdo
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={onDelete} className="text-red-600">
+            <DropdownMenuItem onClick={onDelete} className="text-destructive">
               <Trash2 className="h-4 w-4 mr-2" />
               Excluir
             </DropdownMenuItem>

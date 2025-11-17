@@ -712,6 +712,7 @@ export const MainPointScalarFieldEnum = {
   scriptureReferences: 'scriptureReferences',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  order: 'order',
   sermonId: 'sermonId'
 } as const
 

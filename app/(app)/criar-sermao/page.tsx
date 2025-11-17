@@ -121,6 +121,8 @@ export default function CriarSermaoPage() {
       // mainPoints já está em sermonData
     };
 
+    console.log("Dados do Sermão: ", sermonToSave);
+
     saveSermon(sermonToSave);
   };
 

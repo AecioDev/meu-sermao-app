@@ -16,7 +16,7 @@ export function EmptyState() {
           Você ainda não criou nenhum sermão. Comece agora com a ajuda da IA!
         </p>
         <Link href="/criar-sermao">
-          <Button className="bg-primary text-white">
+          <Button className="bg-primary text-primary-foreground">
             <Plus className="h-4 w-4 mr-2" />
             Criar Primeiro Sermão
           </Button>

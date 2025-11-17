@@ -77,7 +77,8 @@ model MainPoint {
   scriptureReferences String[]
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
-
+  order               Int      @default(0)
+  
   sermonId String
   sermon   Sermon @relation(fields: [sermonId], references: [id], onDelete: Cascade)
   @@index([sermonId])
