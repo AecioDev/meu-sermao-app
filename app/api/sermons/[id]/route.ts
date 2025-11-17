@@ -1,19 +1,16 @@
-import { PrismaClient } from "@/generated/client";
+import { MainPoint, PrismaClient } from "@/generated/client";
 import { getAuthUser } from "@/lib/auth";
-// 1. Importe o 'NextRequest' aqui
 import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
 /**
- * Atualiza um sermão (ex: favoritar)
+ * Atualiza um sermão (Simples ou Completo com MainPoints)
  * Rota: PATCH /api/sermons/[id]
  */
 export async function PATCH(
-  // 2. Mude de 'Request' para 'NextRequest'
   request: NextRequest,
-  // 3. Mude a assinatura de 'params' para 'context'
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     const { user, error, status } = await getAuthUser(request);
@@ -21,16 +18,12 @@ export async function PATCH(
       return NextResponse.json({ error }, { status });
     }
 
-    // 4. Pegue o 'id' de 'context.params'
-    const { id } = context.params;
+    const { id } = params;
     const body = await request.json();
 
-    // Validação (seu código original, perfeito)
+    // Validação de posse (mantida)
     const sermon = await prisma.sermon.findFirst({
-      where: {
-        id,
-        userId: user?.id,
-      },
+      where: { id, userId: user?.id },
     });
 
     if (!sermon) {
@@ -40,24 +33,50 @@ export async function PATCH(
       );
     }
 
-    // Atualização (seu código original, perfeito)
-    const updatedSermon = await prisma.sermon.update({
-      where: {
-        id: id,
-      },
-      data: {
-        title: body.title,
-        theme: body.theme,
-        keyVerse: body.keyVerse,
-        introduction: body.introduction,
-        conclusion: body.conclusion,
-        notes: body.notes,
-        isFavorite: body.isFavorite,
-        serviceType: body.serviceType,
-      },
-    });
+    // --- NOVA LÓGICA DE ATUALIZAÇÃO ---
 
-    return NextResponse.json(updatedSermon);
+    // Separa os 'mainPoints' do resto do 'body'
+    const { mainPoints, ...sermonData } = body;
+
+    // Se o frontend ENVIAR um array de mainPoints, nós o substituímos.
+    if (mainPoints && Array.isArray(mainPoints)) {
+      // Usamos uma transação para deletar os antigos e criar os novos
+      const transaction = await prisma.$transaction([
+        // 1. Deleta todos os mainPoints antigos deste sermão
+        prisma.mainPoint.deleteMany({
+          where: { sermonId: id },
+        }),
+
+        // 2. Atualiza os dados principais E recria os mainPoints
+        prisma.sermon.update({
+          where: { id: id },
+          data: {
+            ...sermonData, // Atualiza title, notes, etc.
+            mainPoints: {
+              create: mainPoints.map((point: MainPoint, index: number) => ({
+                title: point.title,
+                explanation: point.explanation,
+                scriptureReferences: point.scriptureReferences || [],
+                order: index + 1, // Mantém a ordem correta
+              })),
+            },
+          },
+          include: {
+            mainPoints: { orderBy: { order: "asc" } },
+          },
+        }),
+      ]);
+
+      // Retorna o sermão atualizado (resultado da segunda operação da transação)
+      return NextResponse.json(transaction[1]);
+    } else {
+      // Se NÃO vierem mainPoints, fazemos a atualização simples (favoritar, etc.)
+      const updatedSermon = await prisma.sermon.update({
+        where: { id: id },
+        data: sermonData, // Atualiza só o que veio
+      });
+      return NextResponse.json(updatedSermon);
+    }
   } catch (error) {
     console.error("Erro ao atualizar sermão:", error);
     return NextResponse.json(
@@ -72,9 +91,8 @@ export async function PATCH(
  * Rota: DELETE /api/sermons/[id]
  */
 export async function DELETE(
-  // 5. Repita as mesmas mudanças aqui
   request: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
   try {
     const { user, error, status } = await getAuthUser(request);
@@ -82,15 +100,11 @@ export async function DELETE(
       return NextResponse.json({ error }, { status });
     }
 
-    // 6. Pegue o 'id' de 'context.params'
-    const { id } = context.params;
+    const { id } = params;
 
-    // Validação (seu código original, perfeito)
+    // Validação (mantida)
     const sermon = await prisma.sermon.findFirst({
-      where: {
-        id,
-        userId: user?.id,
-      },
+      where: { id, userId: user?.id },
     });
 
     if (!sermon) {
@@ -100,11 +114,9 @@ export async function DELETE(
       );
     }
 
-    // Deleção (seu código original, perfeito)
+    // Deleção (mantida)
     await prisma.sermon.delete({
-      where: {
-        id: id,
-      },
+      where: { id: id },
     });
 
     return NextResponse.json({ message: "Sermão deletado" }, { status: 200 });
