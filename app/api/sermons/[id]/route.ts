@@ -8,17 +8,15 @@ const prisma = new PrismaClient();
  * Atualiza um sermão (Simples ou Completo com MainPoints)
  * Rota: PATCH /api/sermons/[id]
  */
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function PATCH(request: NextRequest, { params }: any) {
   try {
     const { user, error, status } = await getAuthUser(request);
     if (error) {
       return NextResponse.json({ error }, { status });
     }
 
-    const { id } = params;
+    const { id } = params as { id: string };
     const body = await request.json();
 
     // Validação de posse (mantida)
@@ -90,17 +88,15 @@ export async function PATCH(
  * Deleta um sermão
  * Rota: DELETE /api/sermons/[id]
  */
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function DELETE(request: NextRequest, { params }: any) {
   try {
     const { user, error, status } = await getAuthUser(request);
     if (error) {
       return NextResponse.json({ error }, { status });
     }
 
-    const { id } = params;
+    const { id } = params as { id: string };
 
     // Validação (mantida)
     const sermon = await prisma.sermon.findFirst({
