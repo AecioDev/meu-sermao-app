@@ -1,7 +1,7 @@
-// app/api/sermons/[id]/route.ts
 import { PrismaClient } from "@/generated/client";
 import { getAuthUser } from "@/lib/auth";
-import { NextResponse } from "next/server";
+// 1. Importe o 'NextRequest' aqui
+import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
@@ -10,8 +10,10 @@ const prisma = new PrismaClient();
  * Rota: PATCH /api/sermons/[id]
  */
 export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
+  // 2. Mude de 'Request' para 'NextRequest'
+  request: NextRequest,
+  // 3. Mude a assinatura de 'params' para 'context'
+  context: { params: { id: string } }
 ) {
   try {
     const { user, error, status } = await getAuthUser(request);
@@ -19,10 +21,11 @@ export async function PATCH(
       return NextResponse.json({ error }, { status });
     }
 
-    const { id } = params;
+    // 4. Pegue o 'id' de 'context.params'
+    const { id } = context.params;
     const body = await request.json();
 
-    // Validação para garantir que o usuário só atualize seus sermões
+    // Validação (seu código original, perfeito)
     const sermon = await prisma.sermon.findFirst({
       where: {
         id,
@@ -37,11 +40,11 @@ export async function PATCH(
       );
     }
 
+    // Atualização (seu código original, perfeito)
     const updatedSermon = await prisma.sermon.update({
       where: {
         id: id,
       },
-      // Atualiza apenas os campos enviados no body (ex: { isFavorite: true })
       data: {
         title: body.title,
         theme: body.theme,
@@ -51,7 +54,6 @@ export async function PATCH(
         notes: body.notes,
         isFavorite: body.isFavorite,
         serviceType: body.serviceType,
-        // Não permita atualizar userId ou id
       },
     });
 
@@ -70,8 +72,9 @@ export async function PATCH(
  * Rota: DELETE /api/sermons/[id]
  */
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  // 5. Repita as mesmas mudanças aqui
+  request: NextRequest,
+  context: { params: { id: string } }
 ) {
   try {
     const { user, error, status } = await getAuthUser(request);
@@ -79,9 +82,10 @@ export async function DELETE(
       return NextResponse.json({ error }, { status });
     }
 
-    const { id } = params;
+    // 6. Pegue o 'id' de 'context.params'
+    const { id } = context.params;
 
-    // Validação para garantir que o usuário só delete seus sermões
+    // Validação (seu código original, perfeito)
     const sermon = await prisma.sermon.findFirst({
       where: {
         id,
@@ -96,13 +100,14 @@ export async function DELETE(
       );
     }
 
+    // Deleção (seu código original, perfeito)
     await prisma.sermon.delete({
       where: {
         id: id,
       },
     });
 
-    return NextResponse.json({ message: "Sermão excluído" }, { status: 200 });
+    return NextResponse.json({ message: "Sermão deletado" }, { status: 200 });
   } catch (error) {
     console.error("Erro ao deletar sermão:", error);
     return NextResponse.json(
